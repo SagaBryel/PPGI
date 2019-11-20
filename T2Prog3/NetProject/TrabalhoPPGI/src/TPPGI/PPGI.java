@@ -1,6 +1,8 @@
 package TPPGI;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.HashSet;
@@ -29,15 +31,19 @@ public class PPGI {
         
         try (Scanner scan = new Scanner(entrada)) {
             scan.nextLine();
-
-
+            String linha;
+            String[] split;
+            SimpleDateFormat formato;
+            Date nascimento;
+            Date ingresso;
             while (scan.hasNextLine()) {
-                String linha = scan.nextLine();
-                String[] split = linha.split(";");
+                linha = scan.nextLine();
+                split = linha.split(";");
                 if(split[4] == "X"){
-                    
-                } 
-                Docente docente = new Docente("nome", "codigo");
+                    //Ainda tem q ser tratado caso seja um coordenador
+                }
+                nascimento = formato.parseObject(split[2]);
+                Docente docente = new Docente(split[0], split[1]);
                 System.out.println(docente);
                 System.out.println(linha);
                 docentes.add(docente);

@@ -12,13 +12,17 @@ public class Docente implements Comparable<Docente>{
     private Date nascimento;
     private Date ingresso;
     private Set<Publicacao> publicacoes;
-    
-    
-    public Docente(String nome, String codigo){
-        this.publicacoes = new TreeSet<>();
-        this.nome = nome;
+
+    public Docente(String codigo, String nome, Date nascimento, Date ingresso) {
         this.codigo = codigo;
+        this.nome = nome;
+        this.nascimento = nascimento;
+        this.ingresso = ingresso;
+        this.publicacoes = new TreeSet<>();
     }
+    
+    
+    
     
     @Override
     public int compareTo(Docente d){
