@@ -1,5 +1,11 @@
 package TPPGI;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.HashSet;
+
 public class PPGI {
+    private TreeSet<Docente> docentes;
+    private HashSet<Veiculo> veiculos;
     
 }
 /*NOTAS
