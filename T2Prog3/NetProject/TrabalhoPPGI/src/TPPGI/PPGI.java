@@ -33,10 +33,13 @@ public class PPGI {
 
             while (scan.hasNextLine()) {
                 String linha = scan.nextLine();
-                //Ainda Falta dar o split na linha e passar os argumentos do construtor de docente
+                String[] split = linha.split(";");
+                if(split[4] == "X"){
+                    
+                } 
                 Docente docente = new Docente("nome", "codigo");
-                //System.out.println(docente);
-                //System.out.println(linha);
+                System.out.println(docente);
+                System.out.println(linha);
                 docentes.add(docente);
             }
     }   catch (FileNotFoundException ex) {
