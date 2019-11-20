@@ -19,13 +19,19 @@ public class Publicacao implements Comparable<Publicacao>{
     private String qualis;
     
     
-    //Sobrescrita do meto comparable para fins (atualmente) de iserção ordenada em treeset
+    //Sobrescrita do meto comparable para fins (atualmente) de iserção ordenada em treese
+    //Lebrar de, futuramente conferir as saidas
     @Override
     public int compareTo(Publicacao p){
         int i = this.qualis.compareTo(p.qualis);
-        if(this.qualis.compareTo(p.qualis) != 0){
-            
+        
+        if(i == 0){
+            if(this.ano == p.ano){
+                
+            }
+            return this.ano - p.ano;
         }
-        return 
+        
+        return i;
     }
 }
