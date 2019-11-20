@@ -12,7 +12,9 @@ public class Main {
         PPGI projeto = new PPGI();
         Scanner entrada = new Scanner(System.in);
         projeto.LeDocentes(entrada.nextLine());
+        projeto.LeRegras(entrada.nextLine());
         projeto.MostraDocentes();
+        projeto.MostraRegras();
     }
     
 }

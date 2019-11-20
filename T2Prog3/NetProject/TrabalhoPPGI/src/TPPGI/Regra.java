@@ -1,7 +1,9 @@
 package TPPGI;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ArrayList;
+import java.util.Map;
 /**
  *
  * @author Gabriel Paschoal
@@ -11,12 +13,56 @@ public class Regra {
     private Date inivig;
     //Data do fim da vigencia
     private Date fimvig;
-    //Lista de qualis presentes na regra
-    private ArrayList<String> qualis;
     //Quantidade de anos que devem ser considerados para analisar as publicacoes
     private int qtdanos;
     //Pontuação minima para docente se manter credenciado
-    private float minimo;
+    private double minimo;
     //Fator multiplicatico para ser aplicado em periodico
-    private float fator;
+    private double fator;
+    
+    private double pontos;
+    
+    private Map<String, Integer> qualis;
+
+    public Regra(Date inivig, Date fimvig, Map qualis, double fator, int anos, double minimo) {
+        this.inivig = inivig;
+        this.fimvig = fimvig;
+        this.qtdanos = anos;
+        this.minimo = minimo;
+        this.fator = fator;
+        this.pontos =  pontos;
+    }
+
+    Regra() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public Date getInivig() {
+        return inivig;
+    }
+
+    public Date getFimvig() {
+        return fimvig;
+    }
+
+  
+
+    public int getQtdanos() {
+        return qtdanos;
+    }
+
+    public double getMinimo() {
+        return minimo;
+    }
+
+    public double getFator() {
+        return fator;
+    }
+    
+    @Override
+    public String toString() {
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/YYYY");
+        
+        return "inicio: " + formato.format(this.inivig) + " anos: " + this.qtdanos + " fator: " + this.fator + " minimo: " + this.minimo;
+    }
 }
