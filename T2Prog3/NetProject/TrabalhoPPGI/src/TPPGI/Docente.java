@@ -30,6 +30,6 @@ public class Docente implements Comparable<Docente>{
     }
     @Override
     public String toString() {
-        return this.nome + " " + this.codigo + ";\n";
+        return this.nome + " " + this.codigo + " " + this.nascimento;
     }
 }

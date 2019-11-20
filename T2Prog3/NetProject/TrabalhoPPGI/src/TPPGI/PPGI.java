@@ -1,6 +1,7 @@
 package TPPGI;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
@@ -32,23 +33,26 @@ public class PPGI {
         try (Scanner scan = new Scanner(entrada)) {
             scan.nextLine();
             String linha;
+            //Declaração de um vetor de strings para receber o retorno da função split (de String) mais adiante no codigo
             String[] split;
-            SimpleDateFormat formato;
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
             Date nascimento;
             Date ingresso;
+            
             while (scan.hasNextLine()) {
                 linha = scan.nextLine();
                 split = linha.split(";");
-                if(split[4] == "X"){
-                    //Ainda tem q ser tratado caso seja um coordenador
+                if(split.length == 5){
+                    System.out.println(split[0]+ " é coordenador");
                 }
-                nascimento = formato.parseObject(split[2]);
-                Docente docente = new Docente(split[0], split[1]);
-                System.out.println(docente);
-                System.out.println(linha);
+                nascimento = (Date)formato.parse(split[2]);
+                ingresso = (Date)formato.parse(split[3]);
+                Docente docente = new Docente(split[0], split[1], nascimento, ingresso);
                 docentes.add(docente);
             }
     }   catch (FileNotFoundException ex) {
+            Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
             Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
