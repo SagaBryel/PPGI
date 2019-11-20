@@ -16,11 +16,16 @@ public class Publicacao implements Comparable<Publicacao>{
     private String local;
     private int pagini;
     private int pagfim;
+    private String qualis;
     
     
     //Sobrescrita do meto comparable para fins (atualmente) de iserção ordenada em treeset
     @Override
     public int compareTo(Publicacao p){
-        return 1;
+        int i = this.qualis.compareTo(p.qualis);
+        if(this.qualis.compareTo(p.qualis) != 0){
+            
+        }
+        return 
     }
 }

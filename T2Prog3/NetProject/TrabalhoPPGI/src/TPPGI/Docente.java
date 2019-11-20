@@ -13,4 +13,9 @@ public class Docente {
     private Date ingresso;
     private TreeSet<Publicacao> publicacoes;
     
+    
+    @Override
+    public String toString() {
+        return this.nome + " " + this.codigo + ";\n";
+    }
 }

@@ -1,12 +1,49 @@
 package TPPGI;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.HashSet;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PPGI {
-    private TreeSet<Docente> docentes;
-    private HashSet<Veiculo> veiculos;
+    private Set<Docente> docentes;//tree
+    private Set<Veiculo> veiculos;//hash
     
+    
+    public PPGI(){
+        this.docentes = new TreeSet<>();
+        this.veiculos = new HashSet<>();
+    }
+    
+    
+    
+    
+    
+    
+    
+    public void LeDocentes(String arquivo){
+        File entrada = new File(arquivo);
+        
+        try (Scanner scan = new Scanner(entrada)) {
+            scan.nextLine();
+
+
+            while (scan.hasNextLine()) {
+                String linha = scan.nextLine();
+                //Ainda Falta dar o split na linha e passar os argumentos do construtor de docente
+                Docente docente = new Docente();
+               // System.out.println(docente);
+                //System.out.println(linha);
+                docentes.add(docente);
+            }
+    }   catch (FileNotFoundException ex) {
+            Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+        
 }
 /*NOTAS
 * Seguindo as boas práticas de orientação a objetos, você deve programar para interfaces e não para implementações.
