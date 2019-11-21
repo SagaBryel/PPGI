@@ -115,7 +115,30 @@ public class PPGI {
         }
     }
     
-    public void leVeiculos(){
+    public void leVeiculos(String arquivo){
+        File entrada = new File(arquivo);
+        
+        try {
+            Scanner scan = new Scanner(entrada);//stream de entrada
+            scan.nextLine();//pular o cabecalho
+            String linha;
+            String[] split;
+            DecimalFormat decimal = (DecimalFormat)NumberFormat.getNumberInstance(Locale.forLanguageTag("pt-BR"));
+            while(scan.hasNextLine()){
+                linha = scan.nextLine();
+                split = linha.split(";");
+                //TESTE   System.out.println(split);
+                if(split[2].equals("P")){//comparacao de strings
+                    //Criando Periodico
+                    Periodico periodico = new Periodico(split[0], split[1], 0.6, split[4]);
+                }else if(split[2].equals("C")) {//comparacao de strings
+                    //Criando Conferencia
+                    
+                }
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
         

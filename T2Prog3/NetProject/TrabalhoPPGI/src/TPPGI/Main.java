@@ -11,8 +11,9 @@ public class Main {
         System.out.println("---INICIO DE TUDO---");
         PPGI projeto = new PPGI();
         Scanner entrada = new Scanner(System.in);
-        projeto.LeDocentes(entrada.nextLine());
-        projeto.LeRegras(entrada.nextLine());
+        projeto.LeDocentes("docentes.csv");
+        projeto.LeRegras("regras.csv");
+        projeto.leVeiculos("veiculos.csv");
         projeto.MostraDocentes();
         projeto.MostraRegras();
     }

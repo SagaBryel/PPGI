@@ -10,7 +10,7 @@ package TPPGI;
 public abstract class Veiculo {
     String sigla;
     String nome;
-    Double impacto;
+    double impacto;
     
     
     //Corpo de Metodos abstratos
