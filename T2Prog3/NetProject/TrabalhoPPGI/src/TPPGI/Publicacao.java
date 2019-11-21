@@ -1,5 +1,7 @@
 package TPPGI;
-import java.util.Date;
+
+import java.util.List;
+
 /**
  *
  * @author Gabriel Paschoal
@@ -9,16 +11,15 @@ public class Publicacao implements Comparable<Publicacao>{
     //Veiculo no qual foi publicada (deve ser referencia?)
     private Veiculo veiculo;
     private String titulo;
-    /*Autores*/
-    private int numero;
-    private int volume;
-    
-    private String local;
-    private int pagini;
-    private int pagfim;
+    private List<Docente> autores;
+    private int numero;    
+    private int paginaInicio;
+    private int paginaFim;
     private String qualis;
     
-    
+    public Publicacao(int ano, Veiculo veiculo, String titulo,List<Docente> autores, int paginaInicio, int PaginaFim){
+        
+    }
     //Sobrescrita do meto comparable para fins (atualmente) de iserção ordenada em treeset
     //Lebmrar de, futuramente conferir as saidas
     @Override

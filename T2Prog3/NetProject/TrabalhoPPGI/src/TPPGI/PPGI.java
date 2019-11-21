@@ -130,16 +130,29 @@ public class PPGI {
                 //TESTE   System.out.println(split);
                 if(split[2].equals("P")){//comparacao de strings
                     //Criando Periodico
-                    Periodico periodico = new Periodico(split[0], split[1], 0.6, split[4]);
+                    double a = decimal.parse(split[3]).doubleValue();
+                    Periodico periodico = new Periodico(split[0], split[1], a, split[4]);
+                    veiculos.add(periodico);
+                    //System.out.println(split[0]+ " " +  split[1] + split[2] + split[3] + split[4]);
                 }else if(split[2].equals("C")) {//comparacao de strings
                     //Criando Conferencia
+                    Conferencia conferencia = new Conferencia(split[0], split[1], decimal.parse(split[3]).doubleValue());
+                    veiculos.add(conferencia);
                     
                 }
+                
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+    }
+    public void MostraVeiculos(){
+        for(Veiculo v : this.veiculos){
+            System.out.println(v);
+        }
     }
         
 }
