@@ -94,12 +94,13 @@ public class PPGI {
             while (scan.hasNextLine()) {
                 linha = scan.nextLine();
                 split = linha.split(";");
-                if(split.length == 5){
-                    System.out.println(split[0]+ " é coordenador");
-                }
                 nascimento = (Date)formato.parse(split[2]);
                 ingresso = (Date)formato.parse(split[3]);
                 Docente docente = new Docente(split[0], split[1], nascimento, ingresso);
+                //Verifica se é um coordenador
+                if(split.length == 5){
+                    docente.setCoordenadorTrue();
+                }
                 docentes.add(docente);
             }
     }   catch (FileNotFoundException ex) {
@@ -112,6 +113,10 @@ public class PPGI {
         for(Docente d : this.docentes){
             System.out.println(d);
         }
+    }
+    
+    public void leVeiculos(){
+        
     }
         
 }

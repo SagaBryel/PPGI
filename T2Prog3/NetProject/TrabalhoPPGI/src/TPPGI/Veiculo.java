@@ -4,11 +4,15 @@ package TPPGI;
  *
  * @author Gabriel Paschoal
  */
-public class Veiculo {
+
+//A classe nao deve ser instanciada, apenas serve para definir coisas comuns a 
+//Conferenci a e Periodico.
+public abstract class Veiculo {
     String sigla;
     String nome;
-    String issn;
-    char tipo;
     Double impacto;
     
+    
+    //Corpo de Metodos abstratos
+    //public abstract tipo nome();
 }

@@ -14,23 +14,20 @@ public class Regra {
     //Data do fim da vigencia
     private Date fimvig;
     //Quantidade de anos que devem ser considerados para analisar as publicacoes
-    private int qtdanos;
+    private int qtdAnos;
     //Pontuação minima para docente se manter credenciado
     private double minimo;
     //Fator multiplicatico para ser aplicado em periodico
     private double fator;
-    
-    private double pontos;
     
     private Map<String, Integer> qualis;
 
     public Regra(Date inivig, Date fimvig, Map qualis, double fator, int anos, double minimo) {
         this.inivig = inivig;
         this.fimvig = fimvig;
-        this.qtdanos = anos;
+        this.qtdAnos = anos;
         this.minimo = minimo;
         this.fator = fator;
-        this.pontos =  pontos;
     }
 
     Regra() {
@@ -45,10 +42,8 @@ public class Regra {
         return fimvig;
     }
 
-  
-
-    public int getQtdanos() {
-        return qtdanos;
+    public int getQtdAnos() {
+        return qtdAnos;
     }
 
     public double getMinimo() {
@@ -63,6 +58,6 @@ public class Regra {
     public String toString() {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/YYYY");
         
-        return "inicio: " + formato.format(this.inivig) + " anos: " + this.qtdanos + " fator: " + this.fator + " minimo: " + this.minimo;
+        return "inicio: " + formato.format(this.inivig) + " anos: " + this.qtdAnos + " fator: " + this.fator + " minimo: " + this.minimo;
     }
 }
