@@ -1,5 +1,6 @@
 package TPPGI;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,11 +19,7 @@ public class Publicacao implements Comparable<Publicacao>{
     //Atributo temporario a ser repensado futuramente. Guarda uma string representando o local para conferencia ou o volume para periodico
     private String LocalVolume;
 
-    
-    //precisa ser reavaliada
-    private String qualis;
-
-    public Publicacao(int ano, Veiculo veiculo, String titulo, List<Docente> autores, int numero, int paginaInicio, int paginaFim) {
+    public Publicacao(int ano, Veiculo veiculo, String titulo, int numero, int paginaInicio, int paginaFim) {
         this.ano = ano;
         this.veiculo = veiculo;
         this.titulo = titulo;
@@ -30,9 +27,12 @@ public class Publicacao implements Comparable<Publicacao>{
         this.numero = numero;
         this.paginaInicio = paginaInicio;
         this.paginaFim = paginaFim;
+        autores = new ArrayList<>();
     }
     
-    
+    public void AdcionaAutor(Docente d){
+        autores.add(d);
+    }
     
 
     
@@ -40,7 +40,7 @@ public class Publicacao implements Comparable<Publicacao>{
     //Lebmrar de, futuramente conferir as saidas
     @Override
     public int compareTo(Publicacao p){
-        int i = this.qualis.compareTo(p.qualis);
+        int i = this.veiculo.GetMaiorQualis().compareTo(p.veiculo.GetMaiorQualis());
         
         //
         if(i == 0){
@@ -54,5 +54,10 @@ public class Publicacao implements Comparable<Publicacao>{
         }
         //Como a ordem é decrescente por qualis, é invertido o valor da comparação entre as strings qualis
         return -i;
+    }
+    
+    @Override
+    public String toString() {
+        return ano + ";" + veiculo.sigla + ";" + veiculo.nome + ";" + "aqui Qualis" + ";" + "aqui Fatorimpacto" + ";" + titulo + ";";
     }
 }

@@ -14,9 +14,12 @@ public class Main {
         projeto.LeDocentes("docentes.csv");
         projeto.LeRegras("regras.csv");
         projeto.leVeiculos("veiculos.csv");
+        projeto.LeQualis("qualis.csv");
+        projeto.LePublicacoes("publicacoes.csv");
 //        projeto.MostraDocentes();
 //        projeto.MostraRegras();
-        projeto.MostraVeiculos();
+//        projeto.MostraVeiculos();
+        projeto.MostraPublicacoes();
     }
     
 }

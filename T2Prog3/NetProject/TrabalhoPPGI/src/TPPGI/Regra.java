@@ -20,6 +20,7 @@ public class Regra {
     //Fator multiplicatico para ser aplicado em periodico
     private double fator;
     
+    
     private Map<String, Integer> qualis;
 
     public Regra(Date inivig, Date fimvig, Map qualis, double fator, int anos, double minimo) {

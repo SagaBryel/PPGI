@@ -32,8 +32,8 @@ public class Docente implements Comparable<Docente>{
         return codigo;
     }
     
-    public void AdcionaPublicacao(Publicacao p){
-        
+    public void AdicionaPublicacao(Publicacao p){
+        publicacoes.add(p);
     }
     
     

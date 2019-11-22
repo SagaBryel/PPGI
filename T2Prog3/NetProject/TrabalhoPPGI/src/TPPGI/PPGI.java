@@ -22,12 +22,15 @@ public class PPGI {
     private Set<Docente> docentes;//tree
     private Map<String, Veiculo> veiculos;//hash
     private List<Regra> regras;
-    
+    private Set<Publicacao> publicacoes;
+    //Como era reescrito muitas vezes foi decidido pela dupla criar um atributo para ser usada nos metodos
+    private NumberFormat stringParaInteiro = NumberFormat.getIntegerInstance(Locale.forLanguageTag("pt-BR"));
     
     public PPGI(){
         this.docentes = new TreeSet<>();
         this.veiculos = new HashMap<>();
         this.regras = new ArrayList<>();
+        this.publicacoes = new TreeSet<>();
     }
     
     
@@ -42,7 +45,7 @@ public class PPGI {
             String[] chaves;
             String[] valores;
             SimpleDateFormat formato = new SimpleDateFormat("dd/MM/YYYY");
-            NumberFormat inteiro = NumberFormat.getIntegerInstance(Locale.forLanguageTag("pt-BR"));
+            //NumberFormat stringParaInteiro = NumberFormat.getIntegerInstance(Locale.forLanguageTag("pt-BR"));
             DecimalFormat decimal = (DecimalFormat)NumberFormat.getNumberInstance(Locale.forLanguageTag("pt-BR"));
             Date inicio;
             Map<String, Integer> aux =  new HashMap<>();
@@ -58,9 +61,9 @@ public class PPGI {
                 valores = split[3].split(",");
                 //Preenchimento do mapa
                 for(int i=0;i<chaves.length;i++){
-                    aux.put(chaves[i], inteiro.parse(valores[i]).intValue());
+                    aux.put(chaves[i], stringParaInteiro.parse(valores[i]).intValue());
                 }
-                regra = new Regra(inicio, fim, aux, decimal.parse(split[4]).doubleValue(), inteiro.parse(split[5]).intValue(), decimal.parse(split[6]).doubleValue());
+                regra = new Regra(inicio, fim, aux, decimal.parse(split[4]).doubleValue(), stringParaInteiro.parse(split[5]).intValue(), decimal.parse(split[6]).doubleValue());
                 regras.add(regra);
             }
         } catch (FileNotFoundException ex) {
@@ -118,6 +121,7 @@ public class PPGI {
     
     public void LePublicacoes(String arquivo){
         try {
+            //NumberFormat stringParaInteiro = NumberFormat.getIntegerInstance(Locale.forLanguageTag("pt-BR"));
             File entrada = new File(arquivo);
             Scanner scan = new Scanner(entrada);//stream de entrada
             scan.nextLine();//pular o cabecalho
@@ -125,35 +129,69 @@ public class PPGI {
             String[] split;
             String[] splitautores;
             Veiculo veiculaux;
-            List<Docente> autores;
             Iterator ite = docentes.iterator();
             Docente docaux;
+            Publicacao publi;
+            
+            //Valores que serão transformados de string
+            int ano;
+            int pagini;
+            int pagfim;
+            int numero;
             
             while(scan.hasNextLine()){
                 linha = scan.nextLine();
                 split = linha.split(";");
                 veiculaux = veiculos.get(split[1]);
                 
+                //Momento em que é atribuido Local ou Volume
+                //É assumido que um e so um dos dois atributos esteja na linha do arquivo referente a uma pubicação
+                if(split[4].isEmpty())
+                    veiculaux.SetAtributoEspecifico(split[5]);
+                else if(split[5].isEmpty())
+                    veiculaux.SetAtributoEspecifico(split[4]);
+                
+                
                 //nota: Ainda é necessario tratar os campos Volume e Local
                 
-                autores = new ArrayList<>();
+                ano = stringParaInteiro.parse(split[0]).intValue();
+                pagini = stringParaInteiro.parse(split[7]).intValue();
+                pagfim = stringParaInteiro.parse(split[8]).intValue();
+                numero = stringParaInteiro.parse(split[4]).intValue();
+                
+                publi = new Publicacao(ano, veiculaux, split[2], numero, pagini, pagfim);
+                
+                
                 splitautores = split[3].split(",");
+                
+                //Loop que adiciona os autores a uma publicação enquanto simultaneamente adiciona as publicacoes nos docentes
                 for(int i=0; i<splitautores.length; i++){
                     //Essa parte precisa ser repensada
                     while(ite.hasNext()){
                         docaux = (Docente)ite.next();
                         if(splitautores[i].equals(docaux.getCodigo())){
                             //tomar cuidado com isso
-                            autores.add(docaux);
+                            publi.AdcionaAutor(docaux);
+                            docaux.AdicionaPublicacao(publi);
                             
                         }
                     }
                 }
                 
+                
+                
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Erro I/O");
+        } catch (ParseException ex) {
+            Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void MostraPublicacoes(){
+        for(Publicacao p : publicacoes){
+            System.out.println(p);
         }
     }
     
@@ -173,12 +211,12 @@ public class PPGI {
                 if(split[2].equals("P")){//comparacao de strings
                     //Criando Periodico
                     Periodico periodico = new Periodico(split[0], split[1], decimal.parse(split[3]).doubleValue(), split[4]);
-                    veiculos.put(split[1], periodico);
+                    veiculos.put(split[0], periodico);
                     //System.out.println(split[0]+ " " +  split[1] + split[2] + split[3] + split[4]);
                 }else if(split[2].equals("C")) {//comparacao de strings
                     //Criando Conferencia
                     Conferencia conferencia = new Conferencia(split[0], split[1], decimal.parse(split[3]).doubleValue());
-                    veiculos.put(split[1], conferencia);
+                    veiculos.put(split[0], conferencia);
                     
                 }
                 
@@ -191,6 +229,40 @@ public class PPGI {
         }
         
     }
+    
+    public void LeQualis(String arquivo){
+        try {
+            File entrada = new File(arquivo);
+            Scanner scan = new Scanner(entrada);
+            scan.nextLine();//pular o cabecalho
+            String linha;
+            String[] split;
+            Integer ano;
+            
+            while(scan.hasNextLine()){
+                linha = scan.nextLine();
+                split = linha.split(";");
+                ano = stringParaInteiro.parse(split[0]).intValue();
+                
+                //Tratar a existencia de whitespaces entre os argumentos das linhas
+                if(veiculos.containsKey(split[1])){
+                    Veiculo vaux = veiculos.get(split[1]);
+                    vaux.AdicionaQualis(ano, split[2]);
+                }
+                //Veiculo vaux = veiculos.get(split[1]);
+                //vaux.AdicionaQualis(ano, split[2]);
+                //(veiculos.get(split[1])).AdicionaQualis(ano, split[2]);
+            }
+            
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Erro I/O");
+        } catch (ParseException ex) {
+            Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public void MostraVeiculos(){
         for(Map.Entry<String, Veiculo> v: this.veiculos.entrySet()){
             System.out.println(v.getValue());
