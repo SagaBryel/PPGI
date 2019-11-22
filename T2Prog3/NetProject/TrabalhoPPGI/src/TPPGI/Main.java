@@ -14,8 +14,8 @@ public class Main {
         projeto.LeDocentes("docentes.csv");
         projeto.LeRegras("regras.csv");
         projeto.leVeiculos("veiculos.csv");
-        projeto.MostraDocentes();
-        projeto.MostraRegras();
+//        projeto.MostraDocentes();
+//        projeto.MostraRegras();
         projeto.MostraVeiculos();
     }
     

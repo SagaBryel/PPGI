@@ -8,9 +8,9 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -20,22 +20,21 @@ import java.util.logging.Logger;
 
 public class PPGI {
     private Set<Docente> docentes;//tree
-    private Set<Veiculo> veiculos;//hash
+    private Map<String, Veiculo> veiculos;//hash
     private List<Regra> regras;
     
     
     public PPGI(){
         this.docentes = new TreeSet<>();
-        this.veiculos = new HashSet<>();
+        this.veiculos = new HashMap<>();
         this.regras = new ArrayList<>();
     }
     
     
     
      public void LeRegras(String arquivo){
-        File entrada = new File(arquivo);
-        
         try {
+            File entrada = new File(arquivo);
             Scanner scan = new Scanner(entrada);
             scan.nextLine();
             String linha;
@@ -80,9 +79,10 @@ public class PPGI {
     
     
     public void LeDocentes(String arquivo){
-        File entrada = new File(arquivo);
-        
-        try (Scanner scan = new Scanner(entrada)) {
+        try {
+            File entrada = new File(arquivo);
+            Scanner scan = new Scanner(entrada);
+          
             scan.nextLine();
             String linha;
             //Declaração de um vetor de strings para receber o retorno da função split (de String) mais adiante no codigo
@@ -105,6 +105,7 @@ public class PPGI {
             }
     }   catch (FileNotFoundException ex) {
             Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Erro I/O");
         } catch (ParseException ex) {
             Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -115,43 +116,84 @@ public class PPGI {
         }
     }
     
-    public void leVeiculos(String arquivo){
-        File entrada = new File(arquivo);
-        
+    public void LePublicacoes(String arquivo){
         try {
+            File entrada = new File(arquivo);
+            Scanner scan = new Scanner(entrada);//stream de entrada
+            scan.nextLine();//pular o cabecalho
+            String linha;
+            String[] split;
+            String[] splitautores;
+            Veiculo veiculaux;
+            List<Docente> autores;
+            Iterator ite = docentes.iterator();
+            Docente docaux;
+            
+            while(scan.hasNextLine()){
+                linha = scan.nextLine();
+                split = linha.split(";");
+                veiculaux = veiculos.get(split[1]);
+                
+                //nota: Ainda é necessario tratar os campos Volume e Local
+                
+                autores = new ArrayList<>();
+                splitautores = split[3].split(",");
+                for(int i=0; i<splitautores.length; i++){
+                    //Essa parte precisa ser repensada
+                    while(ite.hasNext()){
+                        docaux = (Docente)ite.next();
+                        if(splitautores[i].equals(docaux.getCodigo())){
+                            //tomar cuidado com isso
+                            autores.add(docaux);
+                            
+                        }
+                    }
+                }
+                
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Erro I/O");
+        }
+    }
+    
+    public void leVeiculos(String arquivo){
+        try {
+            File entrada = new File(arquivo);
             Scanner scan = new Scanner(entrada);//stream de entrada
             scan.nextLine();//pular o cabecalho
             String linha;
             String[] split;
             DecimalFormat decimal = (DecimalFormat)NumberFormat.getNumberInstance(Locale.forLanguageTag("pt-BR"));
+            
             while(scan.hasNextLine()){
                 linha = scan.nextLine();
                 split = linha.split(";");
                 //TESTE   System.out.println(split);
                 if(split[2].equals("P")){//comparacao de strings
                     //Criando Periodico
-                    double a = decimal.parse(split[3]).doubleValue();
-                    Periodico periodico = new Periodico(split[0], split[1], a, split[4]);
-                    veiculos.add(periodico);
+                    Periodico periodico = new Periodico(split[0], split[1], decimal.parse(split[3]).doubleValue(), split[4]);
+                    veiculos.put(split[1], periodico);
                     //System.out.println(split[0]+ " " +  split[1] + split[2] + split[3] + split[4]);
                 }else if(split[2].equals("C")) {//comparacao de strings
                     //Criando Conferencia
                     Conferencia conferencia = new Conferencia(split[0], split[1], decimal.parse(split[3]).doubleValue());
-                    veiculos.add(conferencia);
+                    veiculos.put(split[1], conferencia);
                     
                 }
                 
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Erro I/O");
         } catch (ParseException ex) {
             Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
     public void MostraVeiculos(){
-        for(Veiculo v : this.veiculos){
-            System.out.println(v);
+        for(Map.Entry<String, Veiculo> v: this.veiculos.entrySet()){
+            System.out.println(v.getValue());
         }
     }
         

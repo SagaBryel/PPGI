@@ -27,7 +27,14 @@ public class Docente implements Comparable<Docente>{
     public void setCoordenadorTrue() {
         coordenador = coordenador = true;
     }
+
+    public String getCodigo() {
+        return codigo;
+    }
     
+    public void AdcionaPublicacao(Publicacao p){
+        
+    }
     
     
     //Ainda falta definir forma de comparacao
@@ -35,6 +42,8 @@ public class Docente implements Comparable<Docente>{
     public int compareTo(Docente d){
         return this.nome.compareTo(d.nome);
     }
+    //CompareTo para comparar pelo codigo
+    
     
     @Override
     public String toString() {

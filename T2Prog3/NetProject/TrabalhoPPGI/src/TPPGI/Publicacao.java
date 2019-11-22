@@ -15,17 +15,34 @@ public class Publicacao implements Comparable<Publicacao>{
     private int numero;    
     private int paginaInicio;
     private int paginaFim;
-    private String qualis;
+    //Atributo temporario a ser repensado futuramente. Guarda uma string representando o local para conferencia ou o volume para periodico
+    private String LocalVolume;
+
     
-    public Publicacao(int ano, Veiculo veiculo, String titulo,List<Docente> autores, int paginaInicio, int PaginaFim){
-        
+    //precisa ser reavaliada
+    private String qualis;
+
+    public Publicacao(int ano, Veiculo veiculo, String titulo, List<Docente> autores, int numero, int paginaInicio, int paginaFim) {
+        this.ano = ano;
+        this.veiculo = veiculo;
+        this.titulo = titulo;
+        this.autores = autores;
+        this.numero = numero;
+        this.paginaInicio = paginaInicio;
+        this.paginaFim = paginaFim;
     }
-    //Sobrescrita do meto comparable para fins (atualmente) de iserção ordenada em treeset
+    
+    
+    
+
+    
+    //Sobrescrita do metodo comparable para fins (atualmente) de iserção ordenada em treeset
     //Lebmrar de, futuramente conferir as saidas
     @Override
     public int compareTo(Publicacao p){
         int i = this.qualis.compareTo(p.qualis);
         
+        //
         if(i == 0){
             if(this.ano == p.ano){
                 if(this.veiculo.sigla.compareTo(p.veiculo.sigla) == 0){
