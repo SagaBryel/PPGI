@@ -1,6 +1,8 @@
 package TPPGI;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,14 +19,21 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
+import java.io.Serializable;
 
-public class PPGI {
-    private Set<Docente> docentes;//tree
-    private Map<String, Veiculo> veiculos;//hash
-    private List<Regra> regras;
-    private Set<Publicacao> publicacoes;
-    //Como era reescrito muitas vezes foi decidido pela dupla criar um atributo para ser usada nos metodos
-    private NumberFormat stringParaInteiro = NumberFormat.getIntegerInstance(Locale.forLanguageTag("pt-BR"));
+public class PPGI implements Serializable{
+    private final Set<Docente> docentes;//tree
+    private final Map<String, Veiculo> veiculos;//hash
+    private final List<Regra> regras;
+    private final Set<Publicacao> publicacoes;
+    //Como era reescrito muitas vezes foi decidido pela dupla criar um atributo para ser usado nos metodos
+    private final NumberFormat stringParaInteiro = NumberFormat.getIntegerInstance(Locale.forLanguageTag("pt-BR"));
+    private final DecimalFormat stringParaDecimal = (DecimalFormat)NumberFormat.getNumberInstance(Locale.forLanguageTag("pt-BR"));
     
     public PPGI(){
         this.docentes = new TreeSet<>();
@@ -39,14 +48,14 @@ public class PPGI {
         try {
             File entrada = new File(arquivo);
             Scanner scan = new Scanner(entrada);
-            scan.nextLine();
+            scan.nextLine();//consumindo o cabeçalho
             String linha;
             String[] split;
             String[] chaves;
             String[] valores;
+            double fator, pminima;
+            int vigencia;
             SimpleDateFormat formato = new SimpleDateFormat("dd/MM/YYYY");
-            //NumberFormat stringParaInteiro = NumberFormat.getIntegerInstance(Locale.forLanguageTag("pt-BR"));
-            DecimalFormat decimal = (DecimalFormat)NumberFormat.getNumberInstance(Locale.forLanguageTag("pt-BR"));
             Date inicio;
             Map<String, Integer> aux =  new HashMap<>();
             Date fim;
@@ -63,9 +72,16 @@ public class PPGI {
                 for(int i=0;i<chaves.length;i++){
                     aux.put(chaves[i], stringParaInteiro.parse(valores[i]).intValue());
                 }
-                regra = new Regra(inicio, fim, aux, decimal.parse(split[4]).doubleValue(), stringParaInteiro.parse(split[5]).intValue(), decimal.parse(split[6]).doubleValue());
+                
+                fator = stringParaDecimal.parse(split[4]).doubleValue();
+                pminima = stringParaDecimal.parse(split[6]).doubleValue();
+                vigencia = stringParaInteiro.parse(split[5]).intValue();
+                regra = new Regra(inicio, fim, aux, fator, vigencia, pminima);
                 regras.add(regra);
             }
+            
+            scan.close();
+            
         } catch (FileNotFoundException ex) {
             Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
@@ -93,19 +109,27 @@ public class PPGI {
             SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
             Date nascimento;
             Date ingresso;
+            String codigo;
+            String nome;
+            
             
             while (scan.hasNextLine()) {
                 linha = scan.nextLine();
                 split = linha.split(";");
                 nascimento = (Date)formato.parse(split[2]);
                 ingresso = (Date)formato.parse(split[3]);
-                Docente docente = new Docente(split[0], split[1], nascimento, ingresso);
+                codigo = split[0].trim();
+                nome = split[1].trim();
+                Docente docente = new Docente(codigo, nome, nascimento, ingresso);
                 //Verifica se é um coordenador
                 if(split.length == 5){
                     docente.setCoordenadorTrue();
                 }
                 docentes.add(docente);
             }
+            
+            scan.close();
+            
     }   catch (FileNotFoundException ex) {
             Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Erro I/O");
@@ -129,7 +153,7 @@ public class PPGI {
             String[] split;
             String[] splitautores;
             Veiculo veiculaux;
-            Iterator ite = docentes.iterator();
+            Iterator ite;
             Docente docaux;
             Publicacao publi;
             
@@ -142,34 +166,35 @@ public class PPGI {
             while(scan.hasNextLine()){
                 linha = scan.nextLine();
                 split = linha.split(";");
-                veiculaux = veiculos.get(split[1]);
+                veiculaux = veiculos.get(split[1].trim());
                 
                 //Momento em que é atribuido Local ou Volume
                 //É assumido que um e so um dos dois atributos esteja na linha do arquivo referente a uma pubicação
                 if(split[4].isEmpty())
-                    veiculaux.SetAtributoEspecifico(split[5]);
+                    veiculaux.SetAtributoEspecifico(split[5].trim());
                 else if(split[5].isEmpty())
-                    veiculaux.SetAtributoEspecifico(split[4]);
+                    veiculaux.SetAtributoEspecifico(split[4].trim());
                 
                 
                 //nota: Ainda é necessario tratar os campos Volume e Local
                 
-                ano = stringParaInteiro.parse(split[0]).intValue();
-                pagini = stringParaInteiro.parse(split[7]).intValue();
-                pagfim = stringParaInteiro.parse(split[8]).intValue();
-                numero = stringParaInteiro.parse(split[4]).intValue();
+                ano = stringParaInteiro.parse(split[0].trim()).intValue();
+                pagini = stringParaInteiro.parse(split[7].trim()).intValue();
+                pagfim = stringParaInteiro.parse(split[8].trim()).intValue();
+                numero = stringParaInteiro.parse(split[4].trim()).intValue();
                 
-                publi = new Publicacao(ano, veiculaux, split[2], numero, pagini, pagfim);
+                publi = new Publicacao(ano, veiculaux, split[2].trim(), numero, pagini, pagfim);
                 
                 
                 splitautores = split[3].split(",");
                 
                 //Loop que adiciona os autores a uma publicação enquanto simultaneamente adiciona as publicacoes nos docentes
                 for(int i=0; i<splitautores.length; i++){
+                    ite = docentes.iterator();
                     //Essa parte precisa ser repensada
                     while(ite.hasNext()){
                         docaux = (Docente)ite.next();
-                        if(splitautores[i].equals(docaux.getCodigo())){
+                        if(splitautores[i].trim().equals(docaux.getCodigo())){
                             //tomar cuidado com isso
                             publi.AdcionaAutor(docaux);
                             docaux.AdicionaPublicacao(publi);
@@ -178,9 +203,13 @@ public class PPGI {
                     }
                 }
                 
-                
+                //Enfim, adciona a publicação na lista de publicações
+                publicacoes.add(publi);
                 
             }
+            
+            scan.close();
+            
         } catch (FileNotFoundException ex) {
             Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Erro I/O");
@@ -202,25 +231,34 @@ public class PPGI {
             scan.nextLine();//pular o cabecalho
             String linha;
             String[] split;
-            DecimalFormat decimal = (DecimalFormat)NumberFormat.getNumberInstance(Locale.forLanguageTag("pt-BR"));
+            
+            String sigla, nome;
+            double impacto;
+            //DecimalFormat decimal = (DecimalFormat)NumberFormat.getNumberInstance(Locale.forLanguageTag("pt-BR"));
             
             while(scan.hasNextLine()){
                 linha = scan.nextLine();
                 split = linha.split(";");
-                //TESTE   System.out.println(split);
+                
+                sigla = split[0].trim();
+                nome = split[1].trim();
+                impacto = stringParaDecimal.parse(split[3].trim()).doubleValue();
+                
                 if(split[2].equals("P")){//comparacao de strings
                     //Criando Periodico
-                    Periodico periodico = new Periodico(split[0], split[1], decimal.parse(split[3]).doubleValue(), split[4]);
+                    Periodico periodico = new Periodico(sigla, nome, impacto, split[4].trim());
                     veiculos.put(split[0], periodico);
                     //System.out.println(split[0]+ " " +  split[1] + split[2] + split[3] + split[4]);
                 }else if(split[2].equals("C")) {//comparacao de strings
                     //Criando Conferencia
-                    Conferencia conferencia = new Conferencia(split[0], split[1], decimal.parse(split[3]).doubleValue());
-                    veiculos.put(split[0], conferencia);
+                    Conferencia conferencia = new Conferencia(sigla, nome, impacto);
+                    veiculos.put(split[0].trim(), conferencia);
                     
-                }
-                
+                }   
             }
+            
+            scan.close();
+            
         } catch (FileNotFoundException ex) {
             Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Erro I/O");
@@ -246,14 +284,15 @@ public class PPGI {
                 
                 //Tratar a existencia de whitespaces entre os argumentos das linhas
                 if(veiculos.containsKey(split[1])){
-                    Veiculo vaux = veiculos.get(split[1]);
-                    vaux.AdicionaQualis(ano, split[2]);
+                    Veiculo vaux = veiculos.get(split[1].trim());
+                    vaux.AdicionaQualis(ano, split[2].trim());
                 }
                 //Veiculo vaux = veiculos.get(split[1]);
                 //vaux.AdicionaQualis(ano, split[2]);
                 //(veiculos.get(split[1])).AdicionaQualis(ano, split[2]);
             }
             
+            scan.close();
             
         } catch (FileNotFoundException ex) {
             Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
@@ -268,7 +307,63 @@ public class PPGI {
             System.out.println(v.getValue());
         }
     }
+    
+    public void Recredenciamento(String anostr){
+        int ano = Integer.parseInt(anostr);//Talvez isso enxugasse o codigo onde é utilizado numberformat
         
+        try {
+            FileWriter arq = new FileWriter("1 - recredenciamento.csv");
+            PrintWriter print = new PrintWriter(arq);
+            print.println("Docente;Pontuação;Recredenciado?");
+            
+            
+            
+            
+            arq.close();
+            
+        } catch (IOException ex) {
+            Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
+    public void Serializadora(){
+        try {
+            File arq = new File("recredenciamento.dat");
+            ObjectOutputStream serial = new ObjectOutputStream(new FileOutputStream(arq));
+            serial.writeObject(this);
+            serial.close();
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public PPGI Desserializadora(String arquivodat){
+        try {
+            File arq = new File(arquivodat);
+            if (arq.exists()) {
+                //REVISAR ESSE TRECHO
+                ObjectInputStream serial = new ObjectInputStream(new FileInputStream(arq));
+                PPGI novo = new PPGI();
+                novo = (PPGI)serial.readObject();
+                serial.close();
+                return novo;
+            }
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("Erro de Desserialização");
+        return null;
+    }
+    
 }
 /*NOTAS
 * Seguindo as boas práticas de orientação a objetos, você deve programar para interfaces e não para implementações.

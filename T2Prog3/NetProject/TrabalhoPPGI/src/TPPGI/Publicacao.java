@@ -1,5 +1,6 @@
 package TPPGI;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import java.util.List;
  *
  * @author Gabriel Paschoal
  */
-public class Publicacao implements Comparable<Publicacao>{
+public class Publicacao implements Serializable, Comparable<Publicacao>{
     private int ano;
     //Veiculo no qual foi publicada (deve ser referencia?)
     private Veiculo veiculo;

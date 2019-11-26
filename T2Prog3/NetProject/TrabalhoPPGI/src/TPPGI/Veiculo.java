@@ -1,7 +1,7 @@
 package TPPGI;
 
 import java.util.Map;
-
+import java.io.Serializable;
 /**
  *
  * @author Gabriel Paschoal
@@ -9,10 +9,11 @@ import java.util.Map;
 
 //A classe nao deve ser instanciada, apenas serve para definir coisas comuns a 
 //Conferenci a e Periodico.
-public abstract class Veiculo {
+public abstract class Veiculo implements Serializable {
     String sigla;
     String nome;
     double impacto;
+    //Mapa com o ano e a qualis desse ano
     protected Map<Integer, String> veiqualis;
     
     public abstract void SetAtributoEspecifico(String atributo);

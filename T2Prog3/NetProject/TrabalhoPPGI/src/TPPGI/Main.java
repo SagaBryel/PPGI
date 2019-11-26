@@ -8,7 +8,7 @@ import java.util.Scanner;
  */
 public class Main {
     public static void main(String[] args){
-        String ano;
+        String ano = null;
         System.out.println("---INICIO DE TUDO---");
         PPGI projeto = new PPGI();
         Scanner entrada = new Scanner(System.in);
@@ -29,13 +29,18 @@ public class Main {
                 projeto.LeRegras(args[i+1]);
             }
             else if(args[i].equals("-a")){
-                ano=args[i+1];
+                ano = args[i+1];
             }
         }    
-       //projeto.MostraDocentes();
-       //projeto.MostraRegras();
-       //projeto.MostraVeiculos();
-        projeto.MostraPublicacoes();
+        //projeto.MostraDocentes();
+        //projeto.MostraRegras();
+        //projeto.MostraVeiculos();
+        projeto.Serializadora();
+        //projeto.MostraPublicacoes();
+        //projeto.Recredenciamento(ano);
+        PPGI desserializada = new PPGI();
+        //O passo abaixo ta muito errado pra um caralho, coisa de animal. Comente caso for tentar executar
+        desserializada = desserializada.Desserializadora("recredenciamento.dat");
     }
     
 }

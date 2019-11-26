@@ -1,4 +1,5 @@
 package TPPGI;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
@@ -7,7 +8,7 @@ import java.util.TreeSet;
  *
  * @author Gabriel Paschoal
  */
-public class Docente implements Comparable<Docente>{
+public class Docente implements Serializable, Comparable<Docente>{
     private String codigo;
     private String nome;
     private Date nascimento;

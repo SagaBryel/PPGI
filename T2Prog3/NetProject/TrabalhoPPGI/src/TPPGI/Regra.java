@@ -1,5 +1,6 @@
 package TPPGI;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import java.util.Map;
  *
  * @author Gabriel Paschoal
  */
-public class Regra {
+public class Regra implements Serializable{
     //Data do inicio da vigencia
     private Date inivig;
     //Data do fim da vigencia
