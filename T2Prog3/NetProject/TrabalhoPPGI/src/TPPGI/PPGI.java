@@ -310,11 +310,11 @@ public class PPGI implements Serializable{
     
     public void Recredenciamento(String anostr){
         int ano = Integer.parseInt(anostr);//Talvez isso enxugasse o codigo onde é utilizado numberformat
-        
+        Iterator ite = docentes.iterator();
         try {
             FileWriter arq = new FileWriter("1 - recredenciamento.csv");
             PrintWriter print = new PrintWriter(arq);
-            print.println("Docente;Pontuação;Recredenciado?");
+            print.println("Docente;Pontuação;Recredenciado?2");
             
             
             
@@ -326,6 +326,8 @@ public class PPGI implements Serializable{
         }
         
     }
+    
+    
     
     public void Serializadora(){
         try {

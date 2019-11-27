@@ -37,7 +37,7 @@ public class Main {
         //projeto.MostraVeiculos();
         projeto.Serializadora();
         //projeto.MostraPublicacoes();
-        //projeto.Recredenciamento(ano);
+        projeto.Recredenciamento(ano);
         PPGI desserializada = new PPGI();
         //O passo abaixo ta muito errado pra um caralho, coisa de animal. Comente caso for tentar executar
         desserializada = desserializada.Desserializadora("recredenciamento.dat");
