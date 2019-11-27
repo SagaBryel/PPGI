@@ -8,30 +8,66 @@ import java.util.Scanner;
  */
 public class Main {
     public static void main(String[] args){
-        String ano = null;
-        System.out.println("---INICIO DE TUDO---");
         PPGI projeto = new PPGI();
         Scanner entrada = new Scanner(System.in);
+        
+        String docentes = null;
+        String veiculos = null;
+        String publicacoes = null;
+        String qualis = null;
+        String regras = null;
+        String ano = null;        
+        
+        //Controle de entrada  
+        boolean serializa = false;//verifica as opcoes de execucao
+        boolean desserializa = false;
+        boolean entradaCSV = true;
+        
+        
         for(int i=0; i<args.length;i++){
-            if(args[i].equals("-d")){
-                projeto.LeDocentes(args[i+1]);
+            if(args[i].equals("--write-only")){
+                desserializa = true;
+                entradaCSV = false;
+                //carregar os objetos serializados
+                //escrever os relatorios em csv sem ler entrada csv
+            } 
+            else if(args[i].equals("--read-only")){
+                serializa = true;
+                //ler o csv
+                //serializar sem gerar os relatorios
+            }
+            else if(args[i].equals("-d")){
+                docentes = args[i+1];
             }
             else if(args[i].equals("-v")){
-                projeto.leVeiculos(args[i+1]);
+                veiculos = args[i+1];
             }
             else if(args[i].equals("-p")){
-                projeto.LePublicacoes(args[i+1]);
+                publicacoes = args[i+1];
             }
             else if(args[i].equals("-q")){
-                projeto.LeQualis(args[i+1]);
+                qualis = args[i+1];
             }
             else if(args[i].equals("-r")){
-                projeto.LeRegras(args[i+1]);
+                regras = args[i+1];
             }
             else if(args[i].equals("-a")){
                 ano = args[i+1];
             }
+                
         }    
+        
+        
+        //Garantir que a os metodos ja tenham seus pre requisitos quando forem chamados
+        if(entradaCSV == true){
+            projeto.LeDocentes(docentes);
+            projeto.LeVeiculos(veiculos);
+            projeto.LePublicacoes(publicacoes);
+            projeto.LeQualis(qualis);
+            projeto.LeRegras(regras);
+        }
+       
+        
         //projeto.MostraDocentes();
         //projeto.MostraRegras();
         //projeto.MostraVeiculos();

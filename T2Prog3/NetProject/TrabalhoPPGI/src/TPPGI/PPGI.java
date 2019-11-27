@@ -47,45 +47,43 @@ public class PPGI implements Serializable{
      public void LeRegras(String arquivo){
         try {
             File entrada = new File(arquivo);
-            Scanner scan = new Scanner(entrada);
-            scan.nextLine();//consumindo o cabeçalho
-            String linha;
-            String[] split;
-            String[] chaves;
-            String[] valores;
-            double fator, pminima;
-            int vigencia;
-            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/YYYY");
-            Date inicio;
-            Map<String, Integer> aux =  new HashMap<>();
-            Date fim;
-            
-            while(scan.hasNextLine()){
-                linha = scan.nextLine();
-                split = linha.split(";");
-                inicio = (Date)formato.parse(split[0]);
-                fim = (Date)formato.parse(split[1]);
-                Regra regra;
-                chaves = split[2].split(",");
-                valores = split[3].split(",");
-                //Preenchimento do mapa
-                for(int i=0;i<chaves.length;i++){
-                    aux.put(chaves[i], stringParaInteiro.parse(valores[i]).intValue());
+            try (Scanner scan = new Scanner(entrada)) {
+                scan.nextLine();//consumindo o cabeçalho
+                String linha;
+                String[] split;
+                String[] chaves;
+                String[] valores;
+                double fator, pminima;
+                int vigencia;
+                SimpleDateFormat formato = new SimpleDateFormat("dd/MM/YYYY");
+                Date inicio;
+                Map<String, Integer> aux =  new HashMap<>();
+                Date fim;
+                while(scan.hasNextLine()){
+                    linha = scan.nextLine();
+                    split = linha.split(";");
+                    inicio = (Date)formato.parse(split[0]);
+                    fim = (Date)formato.parse(split[1]);
+                    Regra regra;
+                    chaves = split[2].split(",");
+                    valores = split[3].split(",");
+                    //Preenchimento do mapa
+                    for(int i=0;i<chaves.length;i++){
+                        aux.put(chaves[i], stringParaInteiro.parse(valores[i]).intValue());
+                    }
+                    
+                    fator = stringParaDecimal.parse(split[4]).doubleValue();
+                    pminima = stringParaDecimal.parse(split[6]).doubleValue();
+                    vigencia = stringParaInteiro.parse(split[5]).intValue();
+                    regra = new Regra(inicio, fim, aux, fator, vigencia, pminima);
+                    regras.add(regra);
                 }
-                
-                fator = stringParaDecimal.parse(split[4]).doubleValue();
-                pminima = stringParaDecimal.parse(split[6]).doubleValue();
-                vigencia = stringParaInteiro.parse(split[5]).intValue();
-                regra = new Regra(inicio, fim, aux, fator, vigencia, pminima);
-                regras.add(regra);
-            }
-            
-            scan.close();
+            } //consumindo o cabeçalho
             
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Erro I/O");
         } catch (ParseException ex) {
-            Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Erro de formatação");
         }
         
         
@@ -131,10 +129,9 @@ public class PPGI implements Serializable{
             scan.close();
             
     }   catch (FileNotFoundException ex) {
-            Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Erro I/O");
         } catch (ParseException ex) {
-            Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Erro de formatação");
         }
     }
     public void MostraDocentes(){
@@ -211,10 +208,9 @@ public class PPGI implements Serializable{
             scan.close();
             
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Erro I/O");
         } catch (ParseException ex) {
-            Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Erro de formatação");
         }
     }
     
@@ -224,7 +220,7 @@ public class PPGI implements Serializable{
         }
     }
     
-    public void leVeiculos(String arquivo){
+    public void LeVeiculos(String arquivo){
         try {
             File entrada = new File(arquivo);
             Scanner scan = new Scanner(entrada);//stream de entrada
@@ -260,10 +256,9 @@ public class PPGI implements Serializable{
             scan.close();
             
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Erro I/O");
         } catch (ParseException ex) {
-            Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Erro de formatação");
         }
         
     }
@@ -295,10 +290,9 @@ public class PPGI implements Serializable{
             scan.close();
             
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Erro I/O");
         } catch (ParseException ex) {
-            Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Erro de formatação");
         }
     }
     
@@ -322,7 +316,7 @@ public class PPGI implements Serializable{
             arq.close();
             
         } catch (IOException ex) {
-            Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
+             System.out.println("Erro I/O");
         }
         
     }
@@ -337,9 +331,9 @@ public class PPGI implements Serializable{
             serial.close();
             
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
+             System.out.println("Erro I/O");
         } catch (IOException ex) {
-            Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
+             System.out.println("Erro I/O");
         }
     }
     
@@ -356,9 +350,9 @@ public class PPGI implements Serializable{
             }
             
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Erro I/O");
         } catch (IOException ex) {
-            Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Erro I/O");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
         }
