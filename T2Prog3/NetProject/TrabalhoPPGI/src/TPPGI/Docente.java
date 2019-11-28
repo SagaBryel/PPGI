@@ -36,6 +36,11 @@ public class Docente implements Serializable, Comparable<Docente>{
     public void AdicionaPublicacao(Publicacao p){
         publicacoes.add(p);
     }
+
+    public String getNome() {
+        return nome;
+    }
+    
     
     
     //Ainda falta definir forma de comparacao

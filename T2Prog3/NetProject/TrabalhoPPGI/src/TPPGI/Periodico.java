@@ -7,8 +7,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Periodico extends Veiculo{
-    String issn;
-    int volume;
+    private String issn;
+    private int volume;
     
     public Periodico(String sigla, String nome, double impacto, String issn){
         this.sigla = sigla;
@@ -17,11 +17,6 @@ public class Periodico extends Veiculo{
         this.issn = issn;
         this.veiqualis = new HashMap<>();
     }
-
-    public void setVolume(int volume) {
-        this.volume = volume;
-    }
-    
     
     
     @Override

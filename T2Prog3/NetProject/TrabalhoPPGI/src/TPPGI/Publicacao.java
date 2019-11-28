@@ -17,14 +17,12 @@ public class Publicacao implements Serializable, Comparable<Publicacao>{
     private int numero;    
     private int paginaInicio;
     private int paginaFim;
-    //Atributo temporario a ser repensado futuramente. Guarda uma string representando o local para conferencia ou o volume para periodico
-    private String LocalVolume;
+   
 
     public Publicacao(int ano, Veiculo veiculo, String titulo, int numero, int paginaInicio, int paginaFim) {
         this.ano = ano;
         this.veiculo = veiculo;
         this.titulo = titulo;
-        this.autores = autores;
         this.numero = numero;
         this.paginaInicio = paginaInicio;
         this.paginaFim = paginaFim;
@@ -59,6 +57,11 @@ public class Publicacao implements Serializable, Comparable<Publicacao>{
     
     @Override
     public String toString() {
-        return ano + ";" + veiculo.sigla + ";" + veiculo.nome + ";" + "aqui Qualis" + ";" + "aqui Fatorimpacto" + ";" + titulo + ";";
+        String auxAutores = "";
+        for(Docente d : this.autores){
+            auxAutores = auxAutores + d.getNome() + ",";          
+        }
+        auxAutores = auxAutores.substring(0, auxAutores.length() - 1);
+        return ano + ";" + veiculo.getSigla() + ";" + veiculo.getNome() + ";" + veiculo.getVeiqualis(ano) + ";" + veiculo.getImpacto() + ";" + titulo + ";" + auxAutores;
     }
 }

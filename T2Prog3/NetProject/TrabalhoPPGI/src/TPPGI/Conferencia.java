@@ -3,7 +3,7 @@ package TPPGI;
 import java.util.HashMap;
 
 public class Conferencia extends Veiculo{
-    String local;
+    private String local;
     
     public Conferencia(String sigla, String nome, double impacto){
         this.nome = nome;
@@ -12,11 +12,6 @@ public class Conferencia extends Veiculo{
         this.veiqualis = new HashMap<>();
     }
 
-    public void setLocal(String local) {
-        this.local = local;
-    }
-    
-    
     
     @Override
     public String toString() {

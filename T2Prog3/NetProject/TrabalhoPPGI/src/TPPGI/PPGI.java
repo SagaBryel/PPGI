@@ -220,6 +220,39 @@ public class PPGI implements Serializable{
         }
     }
     
+    public void ImprimePublicacoesCSV(){
+        
+        FileWriter  arq = null;
+        try {
+            arq = new FileWriter("2-publicacoes.csv");
+        } catch (IOException ex) {
+            System.out.println("Erro I/O");
+        }
+;
+        
+        PrintWriter print = null;
+        try {
+            print = new PrintWriter(arq = new FileWriter("2-publicacoes.csv"));
+        } catch (IOException ex) {
+            System.out.println("Erro I/O");
+        }
+        print.println("ano;sigla veículo;nome veículo;Qualis;fator de impacto;título da publicação;nomes dos docentes");
+        for(Publicacao p : publicacoes){
+            print.println(p);
+            System.out.println(p);
+        }
+        try {
+            arq.close();
+        } catch (IOException ex) {
+            System.out.println("Erro I/O");
+        }
+    }
+    
+    public void ImprimeEstatisticasCSV(){
+        
+        
+    }
+    
     public void LeVeiculos(String arquivo){
         try {
             File entrada = new File(arquivo);
