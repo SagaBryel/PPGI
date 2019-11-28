@@ -78,6 +78,7 @@ public class Main {
         //projeto.MostraRegras();
         //projeto.MostraVeiculos();
         //projeto.MostraPublicacoes();
+        projeto.MostraPublicacoes();
         projeto.ImprimePublicacoesCSV();
         projeto.Recredenciamento(ano);
         //O passo abaixo ta muito errado pra um caralho, coisa de animal. Comente caso for tentar executar

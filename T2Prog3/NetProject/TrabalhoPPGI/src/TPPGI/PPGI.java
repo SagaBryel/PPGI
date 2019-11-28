@@ -30,7 +30,7 @@ public class PPGI implements Serializable{
     private final Set<Docente> docentes;//tree
     private final Map<String, Veiculo> veiculos;//hash
     private final List<Regra> regras;
-    private final Set<Publicacao> publicacoes;
+    private Set<Publicacao> publicacoes;
     //Como era reescrito muitas vezes foi decidido pela dupla criar um atributo para ser usado nos metodos
     private final NumberFormat stringParaInteiro = NumberFormat.getIntegerInstance(Locale.forLanguageTag("pt-BR"));
     private final DecimalFormat stringParaDecimal = (DecimalFormat)NumberFormat.getNumberInstance(Locale.forLanguageTag("pt-BR"));
@@ -39,7 +39,7 @@ public class PPGI implements Serializable{
         this.docentes = new TreeSet<>();
         this.veiculos = new HashMap<>();
         this.regras = new ArrayList<>();
-        this.publicacoes = new TreeSet<>();
+        this.publicacoes = new TreeSet<>();        
     }
     
     
@@ -200,7 +200,7 @@ public class PPGI implements Serializable{
                     }
                 }
                 
-                //Enfim, adciona a publicação na lista de publicações
+                //Enfim, adciona a publicação na arvore de publicações
                 publicacoes.add(publi);
                 
             }
@@ -214,10 +214,14 @@ public class PPGI implements Serializable{
         }
     }
     
+    //REVER ISSO AQUI!!!!!!!!!!
     public void MostraPublicacoes(){
+        Set<Publicacao> publiaux;
+        publiaux = new TreeSet<>();
         for(Publicacao p : publicacoes){
-            System.out.println(p);
+            publiaux.add(p);
         }
+        publicacoes = publiaux;
     }
     
     public void ImprimePublicacoesCSV(){
@@ -242,7 +246,7 @@ public class PPGI implements Serializable{
 //            System.out.println(p);
 //        }
 
-        Iterator ite = publicacoes.iterator();
+        Iterator<Publicacao> ite = publicacoes.iterator();
         while(ite.hasNext()){
             print.println(ite.next());
         }

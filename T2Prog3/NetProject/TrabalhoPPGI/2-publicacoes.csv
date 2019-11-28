@@ -23,6 +23,7 @@ Ano;Sigla Veículo;Veículo;Qualis;Fator de Impacto;Título;Docentes
 2016;EKAW;International Conference on Knowledge Engineering and Knowledge Management;B1;0,000;SEON: A Software Engineering Ontology Network;Bill Hader,Maya Rudolph,Seth Meyers
 2016;FIE;Frontier in Education;B1;16,000;Methodology and a technological framework to maximize learning in a development of serious games distance course and the evaluation of learning;Kristen Wiig
 2016;FOIS;International Conference on Formal Ontology in Information Systems;B1;0,000;Towards an Ontology of Requirements at Runtime;Bill Hader,Kenan Thompson,Seth Meyers,Amy Poehler
+2016;SoSyM;Software & Systems Modeling;B1;1,497;Toward a well-founded theory for multi-level conceptual modeling;Fred Armisen
 2015;AO;APPLIED ONTOLOGY (ONLINE);B1;0,526;An ontology of online user feedback in software engineering;Amy Poehler
 2015;AO;APPLIED ONTOLOGY (ONLINE);B1;0,526;Towards ontological foundations for conceptual modeling: The unified foundational ontology (UFO) story;Seth Meyers,Fred Armisen,Amy Poehler
 2015;FIE;Frontier in Education;B1;16,000;Adaptation Resources in Virtual Learning Environments under Constructivist Approach: A Systematic Review;Kristen Wiig
@@ -32,6 +33,7 @@ Ano;Sigla Veículo;Veículo;Qualis;Fator de Impacto;Título;Docentes
 2015;SEAA;Euromicro Conference on Software Engineering and Advanced Applications;B1;15,000;Using the Findings of a Mapping Study to Conduct a Research Project: A Case in Knowledge Management in Software Testing;Bill Hader
 2015;SEKE;International Conference on Software Engineering and Knowledge Engineering;B1;12,000;Integration of Software Measurement Supporting Tools: A Mapping Study;Maya Rudolph,Bill Hader
 2016;SBIE;Simpósio Brasileiro de Informática na Educação;B2;14,000;Ambiente para Aprendizagem de Programação fundamentado em Arquiteturas Pedagógicas;Tina Fey
+2016;SBIE;Simpósio Brasileiro de Informática na Educação;B2;14,000;EsCola ? Ambiente Educacional para Escrita Colaborativa;Kristen Wiig
 2016;SBIE;Simpósio Brasileiro de Informática na Educação;B2;14,000;NaPontaDaLíngua: Um Aplicativo para Apoiar o Processo de Ensino-Aprendizagem da Língua Portuguesa;Jason Sudeikis
 2016;SBIE;Simpósio Brasileiro de Informática na Educação;B2;14,000;Uma Plataforma de Serviços para Mapas Conceituais;Jason Sudeikis
 2015;SBIE;Simpósio Brasileiro de Informática na Educação;B2;14,000;A multiplicidade de papéis e o suporte computacional às arquiteturas pedagógicas;Kristen Wiig
@@ -39,8 +41,6 @@ Ano;Sigla Veículo;Veículo;Qualis;Fator de Impacto;Título;Docentes
 2015;SBIE;Simpósio Brasileiro de Informática na Educação;B2;14,000;Apoio a mediação pedagógica em um Debate de Teses utilizando técnicas de processamento de texto;Kristen Wiig
 2015;SBIE;Simpósio Brasileiro de Informática na Educação;B2;14,000;Explorando Arquiteturas Pedagógicas Recomendadas por meio de Agentes e Ontologia de Modelo do Aluno em Ambientes Virtuais de Aprendizagem;Kristen Wiig
 2015;SBIE;Simpósio Brasileiro de Informática na Educação;B2;14,000;MVLIBRAS: ambiente digital para comunidades de aprendizagem com recursos inclusivos para surdos;Tina Fey
-2016;SoSyM;Software & Systems Modeling;B1;1,497;Toward a well-founded theory for multi-level conceptual modeling;Fred Armisen
-2016;SBIE;Simpósio Brasileiro de Informática na Educação;B2;14,000;EsCola ? Ambiente Educacional para Escrita Colaborativa;Kristen Wiig
 2017;RBIE;Revista Brasileira de Informática na Educação;B3;0,000;iMap & CMPaaS - De Ferramenta à Plataforma de Serviços para Mapas Conceituais;Kristen Wiig,Jason Sudeikis
 2016;AI*IA;International Conference of the Italian Association for Artificial Intelligence;B3;0,000;Relationships and Events: Towards a General Theory of Reification and Truthmaking;Seth Meyers
 2016;EDOCW;International Enterprise Distributed Object Computing Workshop;B3;0,000;Service Commitments and Capabilities across the ArchiMate Architectural Layers;Fred Armisen,Bill Hader
