@@ -39,20 +39,19 @@ public class Publicacao implements Serializable, Comparable<Publicacao>{
     //Lebmrar de, futuramente conferir as saidas
     @Override
     public int compareTo(Publicacao p){
-        int i = this.veiculo.GetMaiorQualis(ano).compareTo(p.veiculo.GetMaiorQualis(ano));
-        
-        //
-        if(i == 0){
-            if(this.ano == p.ano){
-                if(this.veiculo.sigla.compareTo(p.veiculo.sigla) == 0){
-                    return this.titulo.compareTo(p.titulo);
-                }
-                else return this.veiculo.sigla.compareTo(p.veiculo.sigla);
+        int i = this.veiculo.getQualis(ano).trim().compareTo(p.veiculo.getQualis(ano).trim());
+        if(i != 0){
+            return i;
+        }
+        if(this.ano == p.ano){
+            if(this.veiculo.sigla.compareTo(p.veiculo.sigla) == 0){
+                return this.titulo.compareTo(p.titulo);
             }
+            else return this.veiculo.sigla.compareTo(p.veiculo.sigla);
+
+        }else{
             return p.ano - this.ano;
         }
-        //Como a ordem é decrescente por qualis, é invertido o valor da comparação entre as strings qualis
-        return i;
     }
     
     @Override
@@ -62,6 +61,6 @@ public class Publicacao implements Serializable, Comparable<Publicacao>{
             auxAutores = auxAutores + d.getNome() + ",";          
         }
         auxAutores = auxAutores.substring(0, auxAutores.length() - 1);
-        return ano + ";" + veiculo.getSigla() + ";" + veiculo.getNome() + ";" + veiculo.GetMaiorQualis(ano) + ";" + String.format("%.3f",veiculo.getImpacto()) + ";" + titulo + ";" + auxAutores;
+        return ano + ";" + veiculo.getSigla() + ";" + veiculo.getNome() + ";" + veiculo.getQualis(ano) + ";" + String.format("%.3f",veiculo.getImpacto()) + ";" + titulo + ";" + auxAutores;
     }
 }

@@ -33,8 +33,8 @@ public abstract class Veiculo implements Serializable {
 //        return maior;
 //    }
    
-    public String GetMaiorQualis(int ano){
-    //Na realidade a ideia é passar a qualis q representa a o menor valor alfabetico
+    public String getQualis(int ano){
+    
         String qualis = "Z";
         for(int i=ano;i>1950;i--){
             if(veiqualis.get(i) != null){
@@ -60,7 +60,7 @@ public abstract class Veiculo implements Serializable {
         return impacto;
     }
 
-//    public String getVeiqualis(int ano) {
+//    public String getQualis(int ano) {
 //        String qualis = veiqualis.get(ano);
 //        while( qualis == null && ano>1950){ //encontrar o qualis
 //            ano = ano-1;
