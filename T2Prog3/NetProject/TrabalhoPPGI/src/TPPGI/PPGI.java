@@ -236,10 +236,15 @@ public class PPGI implements Serializable{
         } catch (IOException ex) {
             System.out.println("Erro I/O");
         }
-        print.println("ano;sigla veículo;nome veículo;Qualis;fator de impacto;título da publicação;nomes dos docentes");
-        for(Publicacao p : publicacoes){
-            print.println(p);
-            System.out.println(p);
+        print.println("Ano;Sigla Veículo;Veículo;Qualis;Fator de Impacto;Título;Docentes");
+//        for(Publicacao p : publicacoes){
+//            print.println(p);
+//            System.out.println(p);
+//        }
+
+        Iterator ite = publicacoes.iterator();
+        while(ite.hasNext()){
+            print.println(ite.next());
         }
         try {
             arq.close();
@@ -273,12 +278,12 @@ public class PPGI implements Serializable{
                 nome = split[1].trim();
                 impacto = stringParaDecimal.parse(split[3].trim()).doubleValue();
                 
-                if(split[2].equals("P")){//comparacao de strings
+                if(split[2].trim().equals("P")){//comparacao de strings
                     //Criando Periodico
                     Periodico periodico = new Periodico(sigla, nome, impacto, split[4].trim());
-                    veiculos.put(split[0], periodico);
+                    veiculos.put(split[0].trim(), periodico);
                     //System.out.println(split[0]+ " " +  split[1] + split[2] + split[3] + split[4]);
-                }else if(split[2].equals("C")) {//comparacao de strings
+                }else if(split[2].trim().equals("C")) {//comparacao de strings
                     //Criando Conferencia
                     Conferencia conferencia = new Conferencia(sigla, nome, impacto);
                     veiculos.put(split[0].trim(), conferencia);
@@ -311,7 +316,7 @@ public class PPGI implements Serializable{
                 ano = stringParaInteiro.parse(split[0]).intValue();
                 
                 //Tratar a existencia de whitespaces entre os argumentos das linhas
-                if(veiculos.containsKey(split[1])){
+                if(veiculos.containsKey(split[1].trim())){
                     Veiculo vaux = veiculos.get(split[1].trim());
                     vaux.AdicionaQualis(ano, split[2].trim());
                 }

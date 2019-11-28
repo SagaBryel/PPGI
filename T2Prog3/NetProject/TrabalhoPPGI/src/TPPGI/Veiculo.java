@@ -22,18 +22,28 @@ public abstract class Veiculo implements Serializable {
         this.veiqualis.put(chave, valor);
     }
     
-    public String GetMaiorQualis(){
-        //Na realidade a ideia é passar a qualis q representa a o menor valor alfabetico
-        String maior = "Z";
-        
-        for(Map.Entry<Integer, String> vq : veiqualis.entrySet()){
-            if(vq.getValue().compareTo(maior) < 0)
-                maior = vq.getValue();
+//    public String GetMaiorQualis(){
+//        //Na realidade a ideia é passar a qualis q representa a o menor valor alfabetico
+//        String maior = "Z";
+//        
+//        for(Map.Entry<Integer, String> vq : veiqualis.entrySet()){
+//            if(vq.getValue().compareTo(maior) < 0)
+//                maior = vq.getValue();
+//        }
+//        return maior;
+//    }
+   
+    public String GetMaiorQualis(int ano){
+    //Na realidade a ideia é passar a qualis q representa a o menor valor alfabetico
+        String qualis = "Z";
+        for(int i=ano;i>1950;i--){
+            if(veiqualis.get(i) != null){
+                qualis = veiqualis.get(i);
+                break;
+            }
         }
-        return maior;
+        return qualis;
     }
-    
-    
     
     //Corpo de Metodos abstratos
     //public abstract tipo nome();
@@ -50,9 +60,12 @@ public abstract class Veiculo implements Serializable {
         return impacto;
     }
 
-    public String getVeiqualis(int ano) {
-        System.out.println(veiqualis.get(ano));
-        return veiqualis.get(ano);
-        
-    }
+//    public String getVeiqualis(int ano) {
+//        String qualis = veiqualis.get(ano);
+//        while( qualis == null && ano>1950){ //encontrar o qualis
+//            ano = ano-1;
+//            qualis = veiqualis.get(ano);
+//        }
+//        return veiqualis.get(ano);
+//    }
 }
