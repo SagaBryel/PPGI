@@ -232,13 +232,13 @@ public class PPGI implements Serializable{
         } catch (IOException ex) {
             System.out.println("Erro I/O");
         }
-;
-        
+
+
         PrintWriter print = null;
         try {
             print = new PrintWriter(arq = new FileWriter("2-publicacoes.csv"));
         } catch (IOException ex) {
-            System.out.println("Erro I/O");
+        System.out.println("Erro I/O");
         }
         print.println("Ano;Sigla Veículo;Veículo;Qualis;Fator de Impacto;Título;Docentes");
 //        for(Publicacao p : publicacoes){
@@ -255,12 +255,9 @@ public class PPGI implements Serializable{
         } catch (IOException ex) {
             System.out.println("Erro I/O");
         }
-    }
-    
-    public void ImprimeEstatisticasCSV(){
-        
         
     }
+   
     
     public void LeVeiculos(String arquivo){
         try {
@@ -401,6 +398,51 @@ public class PPGI implements Serializable{
         System.out.println("Erro de Desserialização");
         return null;
     }
+ 
+    public void estatsiticaCSV(){
+        FileWriter  arquivo = null;
+        PrintWriter print = null;
+        int A1=0,A2=0,B1=0,B2=0,B3=0,B4=0,B5=0,C=0;
+        try {
+            arquivo = new FileWriter("3-estatistica.csv");
+            print = new PrintWriter(arquivo);
+            for(Publicacao p : publicacoes){
+                String qualis = p.getVeiculo().getQualis(p.getAno());
+                switch(qualis){
+                    case "A1":
+                        A1++;
+                    case "A2":
+                        A2++;
+                    case "B1":
+                        B1++;
+                    case "B2":
+                        B2++;
+                    case "B3":
+                        B3++;
+                    case "B4":
+                        B4++;
+                    case "B5":
+                        B5++;
+                    case "C":
+                        C++;
+                }
+            }
+        
+            print.println("A1" + A1 + "\n");
+            print.println("A2" + A1 + "\n");
+            print.println("B1" + A1 + "\n");
+            print.println("B2" + A1 + "\n");
+            print.println("B3" + A1 + "\n");
+            print.println("B4" + A1 + "\n");
+            print.println("B5" + A1 + "\n");
+            print.println("C" + A1 + "\n"); 
+        } catch (IOException ex) {
+            System.out.println("Erro I/O");
+        }
+   
+      
+        
+    } 
     
 }
 /*NOTAS

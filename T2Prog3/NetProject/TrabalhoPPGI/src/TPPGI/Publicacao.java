@@ -32,6 +32,16 @@ public class Publicacao implements Serializable, Comparable<Publicacao>{
     public void AdcionaAutor(Docente d){
         autores.add(d);
     }
+
+    public Veiculo getVeiculo() {
+        return veiculo;
+    }
+
+    public int getAno() {
+        return ano;
+    }
+
+    
     
 
     
