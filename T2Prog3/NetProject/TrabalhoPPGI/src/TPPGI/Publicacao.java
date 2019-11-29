@@ -41,7 +41,9 @@ public class Publicacao implements Serializable, Comparable<Publicacao>{
         return ano;
     }
 
-    
+    public int getNumeroAutores(){
+        return autores.size();
+    }
     
 
     

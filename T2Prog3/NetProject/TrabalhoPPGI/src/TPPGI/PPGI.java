@@ -232,8 +232,6 @@ public class PPGI implements Serializable{
         } catch (IOException ex) {
             System.out.println("Erro I/O");
         }
-
-
         PrintWriter print = null;
         try {
             print = new PrintWriter(arq = new FileWriter("2-publicacoes.csv"));
@@ -241,11 +239,6 @@ public class PPGI implements Serializable{
         System.out.println("Erro I/O");
         }
         print.println("Ano;Sigla Veículo;Veículo;Qualis;Fator de Impacto;Título;Docentes");
-//        for(Publicacao p : publicacoes){
-//            print.println(p);
-//            System.out.println(p);
-//        }
-
         Iterator<Publicacao> ite = publicacoes.iterator();
         while(ite.hasNext()){
             print.println(ite.next());
@@ -402,40 +395,53 @@ public class PPGI implements Serializable{
     public void estatsiticaCSV(){
         FileWriter  arquivo = null;
         PrintWriter print = null;
+        //Contadores para numero de artigos em cada qualis
         int A1=0,A2=0,B1=0,B2=0,B3=0,B4=0,B5=0,C=0;
+        //contadores para numero de artigos por docentes
+        double autoresA1=0,autoresA2=0,autoresB1=0,autoresB2=0,autoresB3=0,autoresB4=0,autoresB5=0,autoresC=0;
         try {
+            int i=0;
             arquivo = new FileWriter("3-estatistica.csv");
             print = new PrintWriter(arquivo);
-            for(Publicacao p : publicacoes){
+            for (Publicacao p : publicacoes) {
                 String qualis = p.getVeiculo().getQualis(p.getAno());
-                switch(qualis){
-                    case "A1":
-                        A1++;
-                    case "A2":
-                        A2++;
-                    case "B1":
-                        B1++;
-                    case "B2":
-                        B2++;
-                    case "B3":
-                        B3++;
-                    case "B4":
-                        B4++;
-                    case "B5":
-                        B5++;
-                    case "C":
-                        C++;
-                }
+                if(qualis.equals("A1")){
+                    A1++;
+                    autoresA1 = autoresA1 + (double)1/p.getNumeroAutores();
+                }else if(qualis.equals("A2")){
+                    A2++;
+                    autoresA2 = autoresA2 + (double)1/p.getNumeroAutores();
+                }else if(qualis.equals("B1")){
+                    B1++;
+                    autoresB1 = autoresB1 + (double)1/p.getNumeroAutores();
+                }else if(qualis.equals("B2")){
+                    B2++;
+                    autoresB2 = autoresB2 + (double)1/p.getNumeroAutores();
+                }else if(qualis.equals("B3")){
+                    B3++;
+                    autoresB3 = autoresB3 + (double)1/p.getNumeroAutores();
+                }else if(qualis.equals("B4")){
+                    B4++;
+                    autoresB4 = autoresB4 + (double)1/p.getNumeroAutores();
+                }else if(qualis.equals("B5")){
+                    B5++;
+                    autoresB5 = autoresB5 + (double)1/p.getNumeroAutores();
+                }else if(qualis.equals("C")){
+                    C++;
+                    autoresC = autoresC + (double)1/p.getNumeroAutores();
+                }              
             }
-        
-            print.println("A1" + A1 + "\n");
-            print.println("A2" + A1 + "\n");
-            print.println("B1" + A1 + "\n");
-            print.println("B2" + A1 + "\n");
-            print.println("B3" + A1 + "\n");
-            print.println("B4" + A1 + "\n");
-            print.println("B5" + A1 + "\n");
-            print.println("C" + A1 + "\n"); 
+            print.println("Qualis;Qtd. Artigos;Média Artigos / Docente");
+            print.println("A1;" + A1 +";" + String.format("%.2f",autoresA1));
+            print.println("A2;" + A2 +";" + String.format("%.2f",autoresA2));
+            print.println("B1;" + B1 +";" + String.format("%.2f",autoresB1));
+            print.println("B2;" + B2 +";" + String.format("%.2f",autoresB2));
+            print.println("B3;" + B3 +";" + String.format("%.2f",autoresB3));
+            print.println("B4;" + B4 +";" + String.format("%.2f",autoresB4));
+            print.println("B5;" + B5 +";" + String.format("%.2f",autoresB5));
+            print.println("C;" + C  +";" + String.format("%.2f",autoresC)); 
+            
+            arquivo.close();
         } catch (IOException ex) {
             System.out.println("Erro I/O");
         }

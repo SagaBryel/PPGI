@@ -36,7 +36,7 @@ public abstract class Veiculo implements Serializable {
     public String getQualis(int ano){
     
         String qualis = "Z";
-        for(int i=ano;i>1950;i--){
+        for(int i=ano;i>1999;i--){
             if(veiqualis.get(i) != null){
                 qualis = veiqualis.get(i);
                 break;
