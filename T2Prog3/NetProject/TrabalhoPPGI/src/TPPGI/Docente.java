@@ -2,6 +2,7 @@ package TPPGI;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 /**
@@ -9,6 +10,7 @@ import java.util.TreeSet;
  * @author Gabriel Paschoal
  */
 public class Docente implements Serializable, Comparable<Docente>{
+    //MUDAR CODIGO PARA INTEIRO
     private String codigo;
     private String nome;
     private Date nascimento;
@@ -40,8 +42,10 @@ public class Docente implements Serializable, Comparable<Docente>{
     public String getNome() {
         return nome;
     }
-    
-    
+                    
+    public Iterator getPubIterator(){
+        return this.publicacoes.iterator();
+    }
     
     //Ainda falta definir forma de comparacao
     @Override

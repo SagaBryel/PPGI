@@ -18,20 +18,12 @@ public abstract class Veiculo implements Serializable {
     
     public abstract void SetAtributoEspecifico(String atributo);
     
+    public abstract double getPontuacao(Regra reg, int ano);
+    
     public void AdicionaQualis(Integer chave, String valor){
         this.veiqualis.put(chave, valor);
     }
-    
-//    public String GetMaiorQualis(){
-//        //Na realidade a ideia é passar a qualis q representa a o menor valor alfabetico
-//        String maior = "Z";
-//        
-//        for(Map.Entry<Integer, String> vq : veiqualis.entrySet()){
-//            if(vq.getValue().compareTo(maior) < 0)
-//                maior = vq.getValue();
-//        }
-//        return maior;
-//    }
+
    
     public String getQualis(int ano){
     
@@ -44,9 +36,6 @@ public abstract class Veiculo implements Serializable {
         }
         return qualis;
     }
-    
-    //Corpo de Metodos abstratos
-    //public abstract tipo nome();
 
     public String getSigla() {
         return sigla;
@@ -60,12 +49,4 @@ public abstract class Veiculo implements Serializable {
         return impacto;
     }
 
-//    public String getQualis(int ano) {
-//        String qualis = veiqualis.get(ano);
-//        while( qualis == null && ano>1950){ //encontrar o qualis
-//            ano = ano-1;
-//            qualis = veiqualis.get(ano);
-//        }
-//        return veiqualis.get(ano);
-//    }
 }

@@ -45,7 +45,9 @@ public class Publicacao implements Serializable, Comparable<Publicacao>{
         return autores.size();
     }
     
-
+    public String getTitulo(){
+        return this.titulo;
+    }
     
     //Sobrescrita do metodo comparable para fins (atualmente) de iserção ordenada em treeset
     //Lebmrar de, futuramente conferir as saidas

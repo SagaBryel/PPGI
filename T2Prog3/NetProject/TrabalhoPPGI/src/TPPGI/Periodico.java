@@ -34,4 +34,9 @@ public class Periodico extends Veiculo{
             Logger.getLogger(Periodico.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    @Override
+    public double getPontuacao(Regra reg, int ano) {
+        return reg.getFator() * reg.getPonto(this.getQualis(ano));
+    }
 }

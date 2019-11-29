@@ -334,21 +334,59 @@ public class PPGI implements Serializable{
         }
     }
     
-    public void Recredenciamento(String anostr){
+    
+public void Recredenciamento(String anostr){
         int ano = Integer.parseInt(anostr);//Talvez isso enxugasse o codigo onde é utilizado numberformat
-        Iterator ite = docentes.iterator();
+        int anopub;//Para armazenar o ano de uma publicacao
+        Iterator itedoc = docentes.iterator();
+        Iterator itepub;
+        double pontuacao;
+        Regra regvig = null;
+        Docente docaux;
+        Publicacao pubaux = null;
+        Locale l = new Locale("pt","BR");
+        NumberFormat nf = NumberFormat.getInstance(l);
+
+        //Encontrando a regra vigente no ano em questão
+        for(Regra regra : regras){
+            if(regra.ehRegraVigente(ano))
+                regvig = regra;
+        }
+        
         try {
             FileWriter arq = new FileWriter("1 - recredenciamento.csv");
             PrintWriter print = new PrintWriter(arq);
             print.println("Docente;Pontuação;Recredenciado?2");
             
             
+            //Varrer a coleção de docentes calculando sua pontuação
+            while(itedoc.hasNext()){
+                pontuacao = 0.0;//is "0.0" a emote?
+                docaux = (Docente)itedoc.next();
+                itepub = docaux.getPubIterator();
+                
+                //Varrer a lista de publicacçoes somando as pontuaçoes obtidas por aquelas dentro das regras
+                while(itepub.hasNext()){
+                    pubaux = (Publicacao)itepub.next();
+                    anopub = pubaux.getAno();
+                    //Verifica se o ano da publicação está no intervalo da regra vigente
+                    if(regvig.ehRegraVigenteP(anopub)){
+                        
+                        pontuacao += pubaux.getVeiculo().getPontuacao(regvig, anopub);
+                    }
+                }
+                print.println(docaux.getNome() + ";" + nf.format(pontuacao));
+                System.out.println(docaux.getNome() + ";" + nf.format(pontuacao));
+            }
             
             
             arq.close();
             
         } catch (IOException ex) {
-             System.out.println("Erro I/O");
+            Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (java.lang.NullPointerException e){
+            //Provavelmete em regvig, casp ocorra
+            System.out.println("NULL MALDITO");
         }
         
     }

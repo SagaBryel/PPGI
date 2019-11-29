@@ -23,4 +23,9 @@ public class Conferencia extends Veiculo{
     public void SetAtributoEspecifico(String atributo) {
         this.local = atributo;
     }
+
+    @Override
+    public double getPontuacao(Regra reg, int ano) {
+        return reg.getPonto(this.getQualis(ano));
+    }
 }
