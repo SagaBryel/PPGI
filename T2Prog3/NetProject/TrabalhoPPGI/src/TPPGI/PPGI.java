@@ -338,6 +338,7 @@ public class PPGI implements Serializable{
 public void Recredenciamento(String anostr){
         int ano = Integer.parseInt(anostr);//Talvez isso enxugasse o codigo onde é utilizado numberformat
         int anopub;//Para armazenar o ano de uma publicacao
+        boolean situacao;
         Iterator itedoc = docentes.iterator();
         Iterator itepub;
         double pontuacao;
@@ -345,7 +346,7 @@ public void Recredenciamento(String anostr){
         Docente docaux;
         Publicacao pubaux = null;
         Locale l = new Locale("pt","BR");
-        NumberFormat nf = NumberFormat.getInstance(l);
+        String condicao = null;
 
         //Encontrando a regra vigente no ano em questão
         for(Regra regra : regras){
@@ -356,7 +357,7 @@ public void Recredenciamento(String anostr){
         try {
             FileWriter arq = new FileWriter("1 - recredenciamento.csv");
             PrintWriter print = new PrintWriter(arq);
-            print.println("Docente;Pontuação;Recredenciado?2");
+            print.println("Docente;Pontuação;Recredenciado?");
             
             
             //Varrer a coleção de docentes calculando sua pontuação
@@ -375,8 +376,10 @@ public void Recredenciamento(String anostr){
                         pontuacao += pubaux.getVeiculo().getPontuacao(regvig, anopub);
                     }
                 }
-                print.println(docaux.getNome() + ";" + nf.format(pontuacao));
-                System.out.println(docaux.getNome() + ";" + nf.format(pontuacao));
+                situacao = pontuacao >= regvig.getMinimo();
+                condicao = docaux.VerificaCondicao(ano, situacao);
+                print.println(docaux.getNome() + ";" + String.format("%.1f", pontuacao) + ";" + condicao);
+                System.out.println(docaux.getNome() + ";" + String.format("%.1f", pontuacao));
             }
             
             

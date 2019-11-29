@@ -1,7 +1,9 @@
 package TPPGI;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
@@ -42,7 +44,25 @@ public class Docente implements Serializable, Comparable<Docente>{
     public String getNome() {
         return nome;
     }
-                    
+    public String VerificaCondicao(int ano, boolean situacao){
+        Calendar nasceu = new GregorianCalendar();
+        nasceu.setTime(this.nascimento);
+        Calendar ingressou = new GregorianCalendar();
+        ingressou.setTime(this.ingresso);
+        
+        if(this.coordenador)
+            return "Coordenador";
+        if((ano - ingressou.get(Calendar.YEAR)) < 3)
+            return "PPJ";
+        if((ano - nasceu.get(Calendar.YEAR)) > 60)
+            return "PPS";
+        if(situacao)
+            return "Sim";
+        return "Não";
+        
+    }
+    
+    
     public Iterator getPubIterator(){
         return this.publicacoes.iterator();
     }
