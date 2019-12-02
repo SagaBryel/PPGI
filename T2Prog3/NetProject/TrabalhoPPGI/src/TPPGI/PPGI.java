@@ -1,4 +1,5 @@
 package TPPGI;
+import TPPGI.ExcecoesPPGi.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -95,7 +96,8 @@ public class PPGI implements Serializable{
     }
     
     
-    public void LeDocentes(String arquivo){
+    public void LeDocentes(String arquivo) throws CodigoRepetidoException{
+        TreeSet<Long> codigosregistrados = new TreeSet<>();
         try {
             File entrada = new File(arquivo);
             Scanner scan = new Scanner(entrada);
@@ -107,7 +109,7 @@ public class PPGI implements Serializable{
             SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
             Date nascimento;
             Date ingresso;
-            String codigo;
+            Long codigo;
             String nome;
             
             
@@ -116,13 +118,16 @@ public class PPGI implements Serializable{
                 split = linha.split(";");
                 nascimento = (Date)formato.parse(split[2]);
                 ingresso = (Date)formato.parse(split[3]);
-                codigo = split[0].trim();
+                codigo = Long.parseLong(split[0].trim());
                 nome = split[1].trim();
                 Docente docente = new Docente(codigo, nome, nascimento, ingresso);
                 //Verifica se é um coordenador
                 if(split.length == 5){
                     docente.setCoordenadorTrue();
                 }
+                if(codigosregistrados.contains(docente.getCodigo()))
+                    throw new CodigoRepetidoException("docente", docente.getCodigo().toString());
+                codigosregistrados.add(codigo);
                 docentes.add(docente);
             }
             
@@ -140,7 +145,7 @@ public class PPGI implements Serializable{
         }
     }
     
-    public void LePublicacoes(String arquivo){
+    public void LePublicacoes(String arquivo) throws DocenteIndefinidoException, VeiculoIndefinidoException {
         try {
             //NumberFormat stringParaInteiro = NumberFormat.getIntegerInstance(Locale.forLanguageTag("pt-BR"));
             File entrada = new File(arquivo);
@@ -153,6 +158,7 @@ public class PPGI implements Serializable{
             Iterator ite;
             Docente docaux;
             Publicacao publi;
+            int qtdautores;
             
             //Valores que serão transformados de string
             int ano;
@@ -164,6 +170,9 @@ public class PPGI implements Serializable{
                 linha = scan.nextLine();
                 split = linha.split(";");
                 veiculaux = veiculos.get(split[1].trim());
+                
+                if(veiculaux == null)//caso o veiculo seja indefinido
+                        throw new VeiculoIndefinidoException(split[0].trim(), split[1]);//qual seria esse ano?
                 
                 //Momento em que é atribuido Local ou Volume
                 //É assumido que um e so um dos dois atributos esteja na linha do arquivo referente a uma pubicação
@@ -188,16 +197,20 @@ public class PPGI implements Serializable{
                 //Loop que adiciona os autores a uma publicação enquanto simultaneamente adiciona as publicacoes nos docentes
                 for(int i=0; i<splitautores.length; i++){
                     ite = docentes.iterator();
-                    //Essa parte precisa ser repensada
+                    qtdautores = 0;//reseta o contador de autores
+                    
                     while(ite.hasNext()){
                         docaux = (Docente)ite.next();
-                        if(splitautores[i].trim().equals(docaux.getCodigo())){
+                        if(splitautores[i].trim().equals(docaux.getCodigo().toString())){
                             //tomar cuidado com isso
                             publi.AdcionaAutor(docaux);
                             docaux.AdicionaPublicacao(publi);
-                            
+                            qtdautores++;
                         }
                     }
+                    //após varrer a coleção de docentes, caso nao ache nenhum autor. Lança a a exceção
+                    if(qtdautores == 0)
+                        throw new DocenteIndefinidoException(publi.getTitulo(), splitautores[i].trim());
                 }
                 
                 //Enfim, adciona a publicação na arvore de publicações
@@ -252,7 +265,7 @@ public class PPGI implements Serializable{
     }
    
     
-    public void LeVeiculos(String arquivo){
+    public void LeVeiculos(String arquivo) throws CodigoRepetidoException{
         try {
             File entrada = new File(arquivo);
             Scanner scan = new Scanner(entrada);//stream de entrada
@@ -272,21 +285,23 @@ public class PPGI implements Serializable{
                 nome = split[1].trim();
                 impacto = stringParaDecimal.parse(split[3].trim()).doubleValue();
                 
-                if(split[2].trim().equals("P")){//comparacao de strings
-                    //Criando Periodico
-                    Periodico periodico = new Periodico(sigla, nome, impacto, split[4].trim());
-                    veiculos.put(split[0].trim(), periodico);
-                    //System.out.println(split[0]+ " " +  split[1] + split[2] + split[3] + split[4]);
-                }else if(split[2].trim().equals("C")) {//comparacao de strings
-                    //Criando Conferencia
-                    Conferencia conferencia = new Conferencia(sigla, nome, impacto);
-                    veiculos.put(split[0].trim(), conferencia);
-                    
+                if(veiculos.get(sigla) == null){
+                
+                    if(split[2].trim().equals("P")){//comparacao de strings
+                        //Criando Periodico
+                        Periodico periodico = new Periodico(sigla, nome, impacto, split[4].trim());
+                        veiculos.put(split[0].trim(), periodico);
+                        //System.out.println(split[0]+ " " +  split[1] + split[2] + split[3] + split[4]);
+                    }else if(split[2].trim().equals("C")) {//comparacao de strings
+                        //Criando Conferencia
+                        Conferencia conferencia = new Conferencia(sigla, nome, impacto);
+                        veiculos.put(split[0].trim(), conferencia);
+                    }   
+                }else{
+                    throw new CodigoRepetidoException("veiculo", sigla);
                 }   
             }
-            
             scan.close();
-            
         } catch (FileNotFoundException ex) {
             System.out.println("Erro I/O");
         } catch (ParseException ex) {
@@ -335,7 +350,7 @@ public class PPGI implements Serializable{
     }
     
     
-public void Recredenciamento(String anostr){
+public void RecredenciamentoCSV(String anostr){
         int ano = Integer.parseInt(anostr);//Talvez isso enxugasse o codigo onde é utilizado numberformat
         int anopub;//Para armazenar o ano de uma publicacao
         boolean situacao;
@@ -379,14 +394,13 @@ public void Recredenciamento(String anostr){
                 situacao = pontuacao >= regvig.getMinimo();
                 condicao = docaux.VerificaCondicao(ano, situacao);
                 print.println(docaux.getNome() + ";" + String.format("%.1f", pontuacao) + ";" + condicao);
-                System.out.println(docaux.getNome() + ";" + String.format("%.1f", pontuacao));
             }
             
             
             arq.close();
             
         } catch (IOException ex) {
-            Logger.getLogger(PPGI.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Erro I/O");
         } catch (java.lang.NullPointerException e){
             //Provavelmete em regvig, casp ocorra
             System.out.println("NULL MALDITO");

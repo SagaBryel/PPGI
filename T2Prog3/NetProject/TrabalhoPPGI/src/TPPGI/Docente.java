@@ -1,4 +1,5 @@
 package TPPGI;
+import TPPGI.ExcecoesPPGi.CodigoRepetidoException;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -13,14 +14,14 @@ import java.util.TreeSet;
  */
 public class Docente implements Serializable, Comparable<Docente>{
     //MUDAR CODIGO PARA INTEIRO
-    private String codigo;
+    private Long codigo;
     private String nome;
     private Date nascimento;
     private Date ingresso;
     private Set<Publicacao> publicacoes;
     private Boolean coordenador;
     
-    public Docente(String codigo, String nome, Date nascimento, Date ingresso) {
+    public Docente(long codigo, String nome, Date nascimento, Date ingresso) {
         this.codigo = codigo;
         this.nome = nome;
         this.nascimento = nascimento;
@@ -33,7 +34,7 @@ public class Docente implements Serializable, Comparable<Docente>{
         coordenador = coordenador = true;
     }
 
-    public String getCodigo() {
+    public Long getCodigo() {
         return codigo;
     }
     

@@ -74,6 +74,7 @@ public class Publicacao implements Serializable, Comparable<Publicacao>{
         for(Docente d : this.autores){
             auxAutores = auxAutores + d.getNome() + ",";          
         }
+        if(auxAutores.length() > 0)
         auxAutores = auxAutores.substring(0, auxAutores.length() - 1);
         return ano + ";" + veiculo.getSigla() + ";" + veiculo.getNome() + ";" + veiculo.getQualis(ano) + ";" + String.format("%.3f",veiculo.getImpacto()) + ";" + titulo + ";" + auxAutores;
     }
