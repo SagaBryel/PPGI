@@ -370,7 +370,7 @@ public void RecredenciamentoCSV(String anostr){
         }
         
         try {
-            FileWriter arq = new FileWriter("1 - recredenciamento.csv");
+            FileWriter arq = new FileWriter("1-recredenciamento.csv");
             PrintWriter print = new PrintWriter(arq);
             print.println("Docente;Pontuação;Recredenciado?");
             
@@ -456,7 +456,7 @@ public void RecredenciamentoCSV(String anostr){
         double autoresA1=0,autoresA2=0,autoresB1=0,autoresB2=0,autoresB3=0,autoresB4=0,autoresB5=0,autoresC=0;
         try {
             int i=0;
-            arquivo = new FileWriter("3-estatistica.csv");
+            arquivo = new FileWriter("3-estatisticas.csv");
             print = new PrintWriter(arquivo);
             for (Publicacao p : publicacoes) {
                 String qualis = p.getVeiculo().getQualis(p.getAno());

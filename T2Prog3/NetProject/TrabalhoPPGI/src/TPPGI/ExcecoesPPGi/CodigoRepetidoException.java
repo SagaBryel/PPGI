@@ -11,6 +11,6 @@ package TPPGI.ExcecoesPPGi;
  */
 public class CodigoRepetidoException extends ExcecoesPPGI{
     public CodigoRepetidoException(String objeto, String codigo){
-        super("Codigo repetido para " + objeto + ": " + codigo + ".");
+        super("Código repetido para " + objeto + ": " + codigo + ".");
     }
 }
