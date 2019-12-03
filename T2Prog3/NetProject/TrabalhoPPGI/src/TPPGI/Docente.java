@@ -53,7 +53,7 @@ public class Docente implements Serializable, Comparable<Docente>{
         
         if(this.coordenador)
             return "Coordenador";
-        if((ano - ingressou.get(Calendar.YEAR)) < 3)
+        if((ano - ingressou.get(Calendar.YEAR)) <= 3)
             return "PPJ";
         if((ano - nasceu.get(Calendar.YEAR)) > 60)
             return "PPS";

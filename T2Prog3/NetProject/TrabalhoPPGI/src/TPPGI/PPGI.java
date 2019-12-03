@@ -54,17 +54,20 @@ public class PPGI implements Serializable{
                 String[] split;
                 String[] chaves;
                 String[] valores;
+                String a,b;
                 double fator, pminima;
                 int vigencia;
-                SimpleDateFormat formato = new SimpleDateFormat("dd/MM/YYYY");
+                SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
                 Date inicio;
                 Map<String, Integer> aux =  new HashMap<>();
                 Date fim;
                 while(scan.hasNextLine()){
                     linha = scan.nextLine();
                     split = linha.split(";");
-                    inicio = (Date)formato.parse(split[0]);
-                    fim = (Date)formato.parse(split[1]);
+                    a=split[0];
+                    b=split[1];
+                    inicio = (Date)formato.parse(a);
+                    fim = (Date)formato.parse(b);
                     Regra regra;
                     chaves = split[2].split(",");
                     valores = split[3].split(",");
@@ -365,9 +368,13 @@ public void RecredenciamentoCSV(String anostr){
 
         //Encontrando a regra vigente no ano em questão
         for(Regra regra : regras){
-            if(regra.ehRegraVigente(ano))
+            if(regra.ehRegraVigente(ano)){
                 regvig = regra;
+                break;
+            }
         }
+        
+
         
         try {
             FileWriter arq = new FileWriter("1-recredenciamento.csv");
