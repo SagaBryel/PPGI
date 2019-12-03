@@ -22,7 +22,7 @@ public class Main {
         boolean serializa = false;//verifica as opcoes de execucao
         boolean desserializa = false;
         boolean entradaCSV = true;
-        
+        boolean saidaCSV = true;
         
         for(int i=0; i<args.length;i++){
             if(args[i].equals("--write-only")){
@@ -33,6 +33,7 @@ public class Main {
             } 
             else if(args[i].equals("--read-only")){
                 serializa = true;
+                saidaCSV = false;
                 //ler o csv
                 //serializar sem gerar os relatorios
             }
@@ -65,18 +66,20 @@ public class Main {
                 projeto.LeQualis(qualis);
                 projeto.LePublicacoes(publicacoes);
                 projeto.LeRegras(regras);
+                projeto.setAno(ano);
             }
-            if(serializa = true){
+            if(serializa == true){
                 projeto.Serializadora();
-            }else if(desserializa = true){
-                PPGI desserializada = new PPGI();
+            }if(desserializa == true){
                 //O passo abaixo ta muito errado pra um caralho, coisa de animal. Comente caso for tentar executar
-                desserializada = desserializada.Desserializadora("recredenciamento.dat");
+                projeto = projeto.Desserializadora("recredenciamento.dat");
             }
-            projeto.MostraPublicacoes();
-            projeto.estatsiticaCSV();
-            projeto.ImprimePublicacoesCSV();
-            projeto.RecredenciamentoCSV(ano);
+            projeto.OrdenaPublicacoes();
+            if(saidaCSV == true){
+                projeto.estatsiticaCSV();
+                projeto.ImprimePublicacoesCSV();
+                projeto.RecredenciamentoCSV(projeto.getAno());
+            }
       
         }catch(NullPointerException e){
             //caso não seja especificado os arquivos de entrada devidamente

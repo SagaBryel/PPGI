@@ -35,12 +35,26 @@ public class PPGI implements Serializable{
     //Como era reescrito muitas vezes foi decidido pela dupla criar um atributo para ser usado nos metodos
     private final NumberFormat stringParaInteiro = NumberFormat.getIntegerInstance(Locale.forLanguageTag("pt-BR"));
     private final DecimalFormat stringParaDecimal = (DecimalFormat)NumberFormat.getNumberInstance(Locale.forLanguageTag("pt-BR"));
+    private int ano;
     
     public PPGI(){
         this.docentes = new TreeSet<>();
         this.veiculos = new HashMap<>();
         this.regras = new ArrayList<>();
-        this.publicacoes = new TreeSet<>();        
+        this.publicacoes = new TreeSet<>();
+        ano = 0;
+    }
+
+    public String getAno() {
+        return String.valueOf(ano);
+    }
+
+    public void setAno(String ano) {
+        try {
+            this.ano = stringParaInteiro.parse(ano).intValue();
+        } catch (ParseException ex) {
+            System.out.println("Erro de formatação");
+        }
     }
     
     
@@ -231,7 +245,7 @@ public class PPGI implements Serializable{
     }
     
     //REVER ISSO AQUI!!!!!!!!!!
-    public void MostraPublicacoes(){
+    public void OrdenaPublicacoes(){
         Set<Publicacao> publiaux;
         publiaux = new TreeSet<>();
         for(Publicacao p : publicacoes){
