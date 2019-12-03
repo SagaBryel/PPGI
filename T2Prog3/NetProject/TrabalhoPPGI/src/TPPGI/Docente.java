@@ -37,14 +37,13 @@ public class Docente implements Serializable, Comparable<Docente>{
         this.coordenador = false;
     }
     
-    /**Setter para 
-     */
     public void setCoordenadorTrue() {coordenador = coordenador = true;}
 
-    public Long getCodigo() {
-        return codigo;
-    }
+    public Long getCodigo() {return codigo;}
     
+    /** Credita uma publicação a um docente
+     * @param p 
+     */
     public void AdicionaPublicacao(Publicacao p){
         publicacoes.add(p);
     }
@@ -52,6 +51,14 @@ public class Docente implements Serializable, Comparable<Docente>{
     public String getNome() {
         return nome;
     }
+    
+    /** Metodo que Retorna a condição de um Docente.
+     * Se é um coordenador, se é PPJ(mais de 60 anos), 
+     * se é PPS(ingressou a menos de 3 anos) ou por fim, se foi ou não recredenciado
+     * @param ano
+     * @param situacao
+     * @return 
+     */
     public String VerificaCondicao(int ano, boolean situacao){
         Calendar nasceu = new GregorianCalendar();
         nasceu.setTime(this.nascimento);
@@ -75,13 +82,11 @@ public class Docente implements Serializable, Comparable<Docente>{
         return this.publicacoes.iterator();
     }
     
-    //Ainda falta definir forma de comparacao
+
     @Override
     public int compareTo(Docente d){
         return this.nome.compareTo(d.nome);
     }
-    //CompareTo para comparar pelo codigo
-    
     
     @Override
     public String toString() {
