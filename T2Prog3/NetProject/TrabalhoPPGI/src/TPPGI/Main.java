@@ -1,6 +1,8 @@
 package TPPGI;
 import TPPGI.ExcecoesPPGi.*;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -89,6 +91,8 @@ public class Main {
         }catch(DocenteIndefinidoException e){
             System.out.println(e.getMessage());
         }catch(VeiculoIndefinidoException e){
+            System.out.println(e.getMessage());
+        }catch(QualisDesconhecidaException e) {
             System.out.println(e.getMessage());
         }
         

@@ -11,6 +11,6 @@ package TPPGI.ExcecoesPPGi;
  */
 public class DocenteIndefinidoException extends ExcecoesPPGI{
     public DocenteIndefinidoException(String titulo, String sigla){
-        super("Código de docente não definido usado na puplicação \"" + titulo + "\": " + sigla + ".");
+        super("Código de docente não definido usado na publicação \"" + titulo + "\": " + sigla + ".");
     }
 }

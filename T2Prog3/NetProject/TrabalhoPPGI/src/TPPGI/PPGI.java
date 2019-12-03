@@ -59,7 +59,7 @@ public class PPGI implements Serializable{
     
     
     
-     public void LeRegras(String arquivo){
+     public void LeRegras(String arquivo) throws QualisDesconhecidaException{
         try {
             File entrada = new File(arquivo);
             try (Scanner scan = new Scanner(entrada)) {
@@ -282,7 +282,7 @@ public class PPGI implements Serializable{
     }
    
     
-    public void LeVeiculos(String arquivo) throws CodigoRepetidoException{
+    public void LeVeiculos(String arquivo) throws CodigoRepetidoException, VeiculoIndefinidoException{
         try {
             File entrada = new File(arquivo);
             Scanner scan = new Scanner(entrada);//stream de entrada
@@ -313,6 +313,8 @@ public class PPGI implements Serializable{
                         //Criando Conferencia
                         Conferencia conferencia = new Conferencia(sigla, nome, impacto);
                         veiculos.put(split[0].trim(), conferencia);
+                    }else{
+                        throw new VeiculoIndefinidoException(sigla, split[2].trim());
                     }   
                 }else{
                     throw new CodigoRepetidoException("veiculo", sigla);
@@ -327,7 +329,7 @@ public class PPGI implements Serializable{
         
     }
     
-    public void LeQualis(String arquivo){
+    public void LeQualis(String arquivo) throws VeiculoIndefinidoException{
         try {
             File entrada = new File(arquivo);
             Scanner scan = new Scanner(entrada);
@@ -345,6 +347,8 @@ public class PPGI implements Serializable{
                 if(veiculos.containsKey(split[1].trim())){
                     Veiculo vaux = veiculos.get(split[1].trim());
                     vaux.AdicionaQualis(ano, split[2].trim());
+                }else{
+                    throw new VeiculoIndefinidoException(split[0].trim(),split[1].trim());
                 }
                 //Veiculo vaux = veiculos.get(split[1]);
                 //vaux.AdicionaQualis(ano, split[2]);

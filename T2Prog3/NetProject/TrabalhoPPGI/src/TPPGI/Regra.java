@@ -1,6 +1,7 @@
 
 package TPPGI;
 
+import TPPGI.ExcecoesPPGi.QualisDesconhecidaException;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 /**
@@ -28,7 +30,7 @@ public class Regra implements Serializable{
     
     private Map<String, Integer> qualis;
     
-    public Regra(Date inivig, Date fimvig, Map qualis, double fator, int anos, double minimo) {
+    public Regra(Date inivig, Date fimvig, Map qualis, double fator, int anos, double minimo) throws QualisDesconhecidaException{
         this.inivig = inivig;
         this.fimvig = fimvig;
         //this.qualis = qualis;
@@ -40,11 +42,29 @@ public class Regra implements Serializable{
     
     
     //Função que monta uma hash com todos os valores de qualis
-    private Map MontaHash(Map mapa){
+    private Map MontaHash(Map mapa) throws QualisDesconhecidaException{
         String[] keys = new String[]{"A1","A2","B1","B2","B3","B4","B5","C"};
         Integer pontuacao = 0;
         Map novo = new HashMap<>();
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        boolean tem = false;
+        Iterator it = mapa.entrySet().iterator();
         
+        while(it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            for(String key : keys){
+                if(key.equals(pair.getKey()))
+                    tem = true;
+            }
+            if(!tem){
+                
+                throw new QualisDesconhecidaException(formato.format(inivig), (String) pair.getKey());
+            }
+            tem = false;
+            
+        }
+                        
+                        
         for(String key : keys){
             if(mapa.containsKey(key))
                 pontuacao = (Integer) mapa.get(key);
