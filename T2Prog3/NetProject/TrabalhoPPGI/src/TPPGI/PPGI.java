@@ -27,6 +27,13 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.io.Serializable;
 
+
+/**
+* Classe que representa um PPGI, fornecendo metodos para leitura de dados e geração de relatorios.
+* @author Gabriel Luiz de Oliveira Paschoal
+* @author Hirui Carriço Liberato
+* @version 2.0
+*/
 public class PPGI implements Serializable{
     private final Set<Docente> docentes;//tree
     private final Map<String, Veiculo> veiculos;//hash
@@ -37,6 +44,10 @@ public class PPGI implements Serializable{
     private final DecimalFormat stringParaDecimal = (DecimalFormat)NumberFormat.getNumberInstance(Locale.forLanguageTag("pt-BR"));
     private int ano;
     
+    /**
+     * Construtor
+     * @version 1.0
+     */
     public PPGI(){
         this.docentes = new TreeSet<>();
         this.veiculos = new HashMap<>();
@@ -44,11 +55,16 @@ public class PPGI implements Serializable{
         this.publicacoes = new TreeSet<>();
         ano = 0;
     }
-
-    public String getAno() {
-        return String.valueOf(ano);
-    }
-
+    
+    /**
+     * Getter do atributo ano
+     * @return o atributo ano como uma string
+     */
+    public String getAno() {return String.valueOf(ano);}
+    /**
+     * Setter do atributo ano
+     * @param ano 
+     */
     public void setAno(String ano) {
         try {
             this.ano = stringParaInteiro.parse(ano).intValue();
@@ -58,8 +74,13 @@ public class PPGI implements Serializable{
     }
     
     
-    
-     public void LeRegras(String arquivo) throws QualisDesconhecidaException{
+    /**
+     * Le as regras que serão utilizadas para pontuar os docentes
+     * @param arquivo String representando o nome do arquivo contendo as regras de pontuação
+     * @throws QualisDesconhecidaException 
+     * @version 2.0
+     */
+    public void LeRegras(String arquivo) throws QualisDesconhecidaException{
         try {
             File entrada = new File(arquivo);
             try (Scanner scan = new Scanner(entrada)) {
@@ -106,13 +127,24 @@ public class PPGI implements Serializable{
         
         
     }
+    
+    /**
+     * Função auxiliar para conferencia  de saida
+     * Regra sobrescreve toString para fins desta função
+     * @version 1.0
+     */
     public void MostraRegras(){
         for(Regra r : this.regras){
             System.out.println(r);
         }
     }
     
-    
+    /**
+     * Le os docentes presentes em um PPGI
+     * @param arquivo String representando o nome do arquivo contendo as informações dos docentes
+     * @throws CodigoRepetidoException
+     * @version 2.0
+     */
     public void LeDocentes(String arquivo) throws CodigoRepetidoException{
         TreeSet<Long> codigosregistrados = new TreeSet<>();
         try {
@@ -156,13 +188,26 @@ public class PPGI implements Serializable{
             System.out.println("Erro de formatação");
         }
     }
+    
+     /**
+     * Função auxiliar para conferencia  de saida
+     * Docente sobrescreve toString para fins desta função
+     * @version 1.0
+     */
     public void MostraDocentes(){
         for(Docente d : this.docentes){
             System.out.println(d);
         }
     }
     
-    public void LePublicacoes(String arquivo) throws DocenteIndefinidoException, VeiculoIndefinidoException {
+    /**
+     * Le as publicações geradas por um PPGI
+     * @param arquivo String representando o nome do arquivo que contem as informações das publicações geradas por um PPGI
+     * @throws DocenteIndefinidoException
+     * @throws SiglaIndefinidaException
+     * @version 2.0
+     */
+    public void LePublicacoes(String arquivo) throws DocenteIndefinidoException, SiglaIndefinidaException {
         try {
             //NumberFormat stringParaInteiro = NumberFormat.getIntegerInstance(Locale.forLanguageTag("pt-BR"));
             File entrada = new File(arquivo);
@@ -188,8 +233,9 @@ public class PPGI implements Serializable{
                 split = linha.split(";");
                 veiculaux = veiculos.get(split[1].trim());
                 
-                if(veiculaux == null)//caso o veiculo seja indefinido
-                        throw new VeiculoIndefinidoException(split[0].trim(), split[1]);//qual seria esse ano?
+                //Caso a sigla do veiculo desta publicação não tenha sido definido
+                if(veiculaux == null)
+                        throw new SiglaIndefinidaException(split[2].trim(), split[1].trim());
                 
                 //Momento em que é atribuido Local ou Volume
                 //É assumido que um e so um dos dois atributos esteja na linha do arquivo referente a uma pubicação
@@ -245,6 +291,9 @@ public class PPGI implements Serializable{
     }
     
     //REVER ISSO AQUI!!!!!!!!!!
+    /** Metodo experimental
+     * @version 0.1
+     */
     public void OrdenaPublicacoes(){
         Set<Publicacao> publiaux;
         publiaux = new TreeSet<>();
@@ -254,6 +303,10 @@ public class PPGI implements Serializable{
         publicacoes = publiaux;
     }
     
+    /**
+     * Gera o Relatorio de publicações para um objeto PPGI que já recebeu todas
+     * as informações necessarias.
+     */
     public void ImprimePublicacoesCSV(){
         
         FileWriter  arq = null;
@@ -281,7 +334,12 @@ public class PPGI implements Serializable{
         
     }
    
-    
+    /**
+     * @param arquivo String contendo o nome do arquivo que armazena as informações dos veiculos
+     * @throws CodigoRepetidoException
+     * @throws VeiculoIndefinidoException 
+     * @version 2.0
+     */
     public void LeVeiculos(String arquivo) throws CodigoRepetidoException, VeiculoIndefinidoException{
         try {
             File entrada = new File(arquivo);
@@ -328,8 +386,14 @@ public class PPGI implements Serializable{
         }
         
     }
-    
-    public void LeQualis(String arquivo) throws VeiculoIndefinidoException{
+    /**
+     * Recebe uma string como parametro e lê linha a linha o arquivo indicado obtendo as qualis dos veiculos
+     * Um veiculo pode ter mais de uma qualis em anos diferentes
+     * @param arquivo String o nome do arquivo a ser lido
+     * @throws SiglaIndefinidaException
+     * @throws QualisDesconhecidaException 
+     */
+    public void LeQualis(String arquivo) throws SiglaIndefinidaException, QualisDesconhecidaException{
         try {
             File entrada = new File(arquivo);
             Scanner scan = new Scanner(entrada);
@@ -348,7 +412,7 @@ public class PPGI implements Serializable{
                     Veiculo vaux = veiculos.get(split[1].trim());
                     vaux.AdicionaQualis(ano, split[2].trim());
                 }else{
-                    throw new VeiculoIndefinidoException(split[0].trim(),split[1].trim());
+                    throw new SiglaIndefinidaException(ano, split[1].trim());
                 }
                 //Veiculo vaux = veiculos.get(split[1]);
                 //vaux.AdicionaQualis(ano, split[2]);
@@ -364,14 +428,24 @@ public class PPGI implements Serializable{
         }
     }
     
+    /**
+    * Função auxiliar para conferencia  de saida
+    * @version 1.0
+    */
     public void MostraVeiculos(){
         for(Map.Entry<String, Veiculo> v: this.veiculos.entrySet()){
             System.out.println(v.getValue());
         }
     }
     
-    
-public void RecredenciamentoCSV(String anostr){
+
+    /**
+     * Metodo que gera o relatorio de recredenciamento para um PPGI que ja leu todas
+     * as informações necessarias para calcular as pontuações de seus docentes
+     * @param anostr
+     * @version 2.0
+     */
+    public void RecredenciamentoCSV(String anostr){
         int ano = Integer.parseInt(anostr);//Talvez isso enxugasse o codigo onde é utilizado numberformat
         int anopub;//Para armazenar o ano de uma publicacao
         boolean situacao;
@@ -434,7 +508,9 @@ public void RecredenciamentoCSV(String anostr){
     }
     
     
-    
+    /**
+     * Metodo que serializa um PPGI caso essa opção seja passada na chamada do programa
+     */
     public void Serializadora(){
         try {
             File arq = new File("recredenciamento.dat");
@@ -449,6 +525,11 @@ public void RecredenciamentoCSV(String anostr){
         }
     }
     
+    /**
+     * Metodo que Desserializa um PPGI
+     * @param arquivodat
+     * @return um PPGI Desserializado
+     */
     public PPGI Desserializadora(String arquivodat){
         try {
             File arq = new File(arquivodat);
@@ -472,6 +553,10 @@ public void RecredenciamentoCSV(String anostr){
         return null;
     }
  
+    /**
+     * Metodo que gera, para um PPGI que ja recebeu todas as informações, 
+     * um relatorio com as estatisticas deste PPGI
+     */
     public void estatsiticaCSV(){
         FileWriter  arquivo = null;
         PrintWriter print = null;

@@ -15,7 +15,7 @@ public class QualisDesconhecidaException extends ExcecoesPPGI{
     public QualisDesconhecidaException(String data, String qualis){
             super("Qualis desconhecido para regras de " + data + ": " + qualis + ".");
     //qualificacao
-    }public QualisDesconhecidaException(String sigla, String ano, String qualis){
+    }public QualisDesconhecidaException(String sigla, int ano, String qualis){
             super("Qualis desconhecido para qualificação do veiculo " + sigla + "no ano " + ano + ": " + qualis + ".");
     }
     

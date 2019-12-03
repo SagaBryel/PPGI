@@ -1,5 +1,6 @@
 package TPPGI;
 
+import TPPGI.ExcecoesPPGi.QualisDesconhecidaException;
 import java.util.Map;
 import java.io.Serializable;
 /**
@@ -20,8 +21,22 @@ public abstract class Veiculo implements Serializable {
     
     public abstract double getPontuacao(Regra reg, int ano);
     
-    public void AdicionaQualis(Integer chave, String valor){
-        this.veiqualis.put(chave, valor);
+    public void AdicionaQualis(Integer chave, String valor) throws QualisDesconhecidaException{
+        //"tem" é criada como false
+        boolean tem = false;
+        String[] validas = new String[]{"A1","A2","B1","B2","B3","B4","B5","C"};
+        for(String qualis : validas){
+            if(qualis.equals(valor))
+                //Se algum elemento de validas for a string passada, "tem" passa a ser true
+                tem = true;
+        }
+        //Se tiver define a qualis
+        if(tem)
+            this.veiqualis.put(chave, valor);
+        
+        //Se validas não tiver uma string igual a valor, então valor é uma qualis invalida
+        else
+            throw new QualisDesconhecidaException(this.sigla, chave, valor);
     }
 
    

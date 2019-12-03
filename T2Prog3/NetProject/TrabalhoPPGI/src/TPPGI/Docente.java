@@ -8,9 +8,9 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
-/**
- *
+/** Classe que representa um Docente
  * @author Gabriel Paschoal
+ * @author Hiuri Carriço Liberato
  */
 public class Docente implements Serializable, Comparable<Docente>{
     //MUDAR CODIGO PARA INTEIRO
@@ -21,6 +21,13 @@ public class Docente implements Serializable, Comparable<Docente>{
     private Set<Publicacao> publicacoes;
     private Boolean coordenador;
     
+    /**
+     * Construtor de um docente
+     * @param codigo
+     * @param nome
+     * @param nascimento
+     * @param ingresso 
+     */
     public Docente(long codigo, String nome, Date nascimento, Date ingresso) {
         this.codigo = codigo;
         this.nome = nome;
@@ -29,10 +36,10 @@ public class Docente implements Serializable, Comparable<Docente>{
         this.publicacoes = new TreeSet<>();
         this.coordenador = false;
     }
-
-    public void setCoordenadorTrue() {
-        coordenador = coordenador = true;
-    }
+    
+    /**Setter para 
+     */
+    public void setCoordenadorTrue() {coordenador = coordenador = true;}
 
     public Long getCodigo() {
         return codigo;

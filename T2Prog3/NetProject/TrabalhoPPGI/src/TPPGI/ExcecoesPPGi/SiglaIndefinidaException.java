@@ -10,9 +10,11 @@ package TPPGI.ExcecoesPPGi;
  * @author hcliberato
  */
 public class SiglaIndefinidaException extends ExcecoesPPGI {
+    //publicação
     public SiglaIndefinidaException(String titulo, String sigla){
         super("Sigla de veículo não definida usada na publicaco " + titulo + ": " + sigla + ".");
     }
+    //qualis
     public SiglaIndefinidaException(int ano, String sigla){
         super("Sigla de veículo não definida usada na qualificacao do ano" + ano + ": " + sigla + ".");
     }

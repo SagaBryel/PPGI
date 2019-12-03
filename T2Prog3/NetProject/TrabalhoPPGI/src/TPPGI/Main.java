@@ -94,6 +94,8 @@ public class Main {
             System.out.println(e.getMessage());
         }catch(QualisDesconhecidaException e) {
             System.out.println(e.getMessage());
+        }catch(SiglaIndefinidaException e) {
+            System.out.println(e.getMessage());
         }
         
     }
