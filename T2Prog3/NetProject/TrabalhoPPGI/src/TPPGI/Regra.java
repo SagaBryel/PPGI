@@ -1,20 +1,19 @@
-
 package TPPGI;
 
-import TPPGI.ExcecoesPPGi.QualisDesconhecidaException;
+import TPPGI.ExceptionsPPGi.QualisDesconhecidaException;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
+
 /**
  *
  * @author Gabriel Paschoal
+ * @author Hiuri Liberato
  */
 public class Regra implements Serializable{
     //Data do inicio da vigencia
@@ -30,6 +29,16 @@ public class Regra implements Serializable{
     
     private Map<String, Integer> qualis;
     
+    /**Construtor de regra
+     * 
+     * @param inivig
+     * @param fimvig
+     * @param qualis
+     * @param fator
+     * @param anos
+     * @param minimo
+     * @throws QualisDesconhecidaException 
+     */
     public Regra(Date inivig, Date fimvig, Map qualis, double fator, int anos, double minimo) throws QualisDesconhecidaException{
         this.inivig = inivig;
         this.fimvig = fimvig;
@@ -41,7 +50,13 @@ public class Regra implements Serializable{
     }
     
     
-    //Função que monta uma hash com todos os valores de qualis
+    
+    /**Método para atribuir a pontuação de cada qualis de acordo com as regras
+     * 
+     * @param mapa
+     * @return
+     * @throws QualisDesconhecidaException 
+     */
     private Map MontaHash(Map mapa) throws QualisDesconhecidaException{
         String[] keys = new String[]{"A1","A2","B1","B2","B3","B4","B5","C"};
         Integer pontuacao = 0;
@@ -91,6 +106,11 @@ public class Regra implements Serializable{
         return minimo;
     }
 
+    /**Método para retornar os pontos do map de qualis 
+     * 
+     * @param key
+     * @return 
+     */
     public double getPonto(String key){
         return this.qualis.get(key).doubleValue();
     }
@@ -99,34 +119,32 @@ public class Regra implements Serializable{
         return fator;
     }
     
-    //CUIDADOCUIDADOCUIDADOCU
+    /**Método para verificar qual a regra vigente ano ano passado como parâmetro 
+     * Para a execução do sistema
+     * 
+     * @param ano
+     * @return 
+     */
     public boolean ehRegraVigente(int ano){
-        //Após erros talvez por causa da utilizacao de atributos deprecated de Date
-        //Foi criado um calendar para os acessos aos campos da data
         Calendar inical = new GregorianCalendar();
         Calendar fimcal = new GregorianCalendar();
         inical.setTime(this.inivig);
         fimcal.setTime(this.fimvig);
         //A linha abaixo retorna verdadeiro caso o valor do parametro esteja dentro do intervalo de atuação da regra.
-        int a, b;
-        //a = (inical.get(Calendar.YEAR) - this.qtdAnos);
-        //b = fimcal.get(Calendar.YEAR);
-        //return (a <= ano && ano <= b);
         return (inical.get(Calendar.YEAR) - this.qtdAnos) <= ano && ano <= (fimcal.get(Calendar.YEAR));
     }
     
+    /**Método para verificar se o ano da publicação está no intervalo a ser considerado para pontuação
+     * 
+     * @param ano
+     * @return 
+     */
     public boolean ehRegraVigenteP(int ano){
-        //Após erros talvez por causa da utilizacao de atributos deprecated de Date
-        //Foi criado um calendar para os acessos aos campos da data
         Calendar inical = new GregorianCalendar();
         Calendar fimcal = new GregorianCalendar();
         inical.setTime(this.inivig);
         fimcal.setTime(this.fimvig);
         //A linha abaixo retorna verdadeiro caso o valor do parametro esteja dentro do intervalo de atuação da regra.
-        int a, b;
-        //a = (inical.get(Calendar.YEAR) - this.qtdAnos);
-        //b = fimcal.get(Calendar.YEAR);
-        //return (a <= ano && ano <= b);
         return (inical.get(Calendar.YEAR) - this.qtdAnos) <= ano && ano < (fimcal.get(Calendar.YEAR));
     }
     

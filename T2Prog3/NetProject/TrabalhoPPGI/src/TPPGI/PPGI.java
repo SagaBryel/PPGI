@@ -1,5 +1,9 @@
 package TPPGI;
-import TPPGI.ExcecoesPPGi.*;
+import TPPGI.ExceptionsPPGi.VeiculoIndefinidoException;
+import TPPGI.ExceptionsPPGi.QualisDesconhecidaException;
+import TPPGI.ExceptionsPPGi.DocenteIndefinidoException;
+import TPPGI.ExceptionsPPGi.CodigoRepetidoException;
+import TPPGI.ExceptionsPPGi.SiglaIndefinidaException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

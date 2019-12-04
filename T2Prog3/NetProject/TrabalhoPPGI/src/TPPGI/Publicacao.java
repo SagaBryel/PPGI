@@ -4,9 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
+/**Classe Publicação, usada para avaliar os docentes de acordo com a quantidade 
+ * de publicações e seus referidos pontos definidos na classe regras.
  *
  * @author Gabriel Paschoal
+ * @author Hiuri Liberato
  */
 public class Publicacao implements Serializable, Comparable<Publicacao>{
     private int ano;
@@ -18,7 +20,15 @@ public class Publicacao implements Serializable, Comparable<Publicacao>{
     private int paginaInicio;
     private int paginaFim;
    
-
+    /**Construtor de publicação  
+     * 
+     * @param ano
+     * @param veiculo
+     * @param titulo
+     * @param numero
+     * @param paginaInicio
+     * @param paginaFim 
+     */
     public Publicacao(int ano, Veiculo veiculo, String titulo, int numero, int paginaInicio, int paginaFim) {
         this.ano = ano;
         this.veiculo = veiculo;
@@ -28,9 +38,15 @@ public class Publicacao implements Serializable, Comparable<Publicacao>{
         this.paginaFim = paginaFim;
         autores = new ArrayList<>();
     }
+
+  
     
-    public void AdcionaAutor(Docente d){
-        autores.add(d);
+    /**Método utilizado para adicionar Autor em uma publicação
+     * 
+     * @param docente 
+     */
+    public void AdcionaAutor(Docente docente){
+        autores.add(docente);
     }
 
     public Veiculo getVeiculo() {
@@ -76,6 +92,6 @@ public class Publicacao implements Serializable, Comparable<Publicacao>{
         }
         if(auxAutores.length() > 0)
         auxAutores = auxAutores.substring(0, auxAutores.length() - 1);
-        return ano + ";" + veiculo.getSigla() + ";" + veiculo.getNome() + ";" + veiculo.getQualis(ano) + ";" + String.format("%.3f",veiculo.getImpacto()) + ";" + titulo + ";" + auxAutores;
+        return ano + ";" + veiculo.getSigla() + ";" + veiculo.getNome() + ";" + this.veiculo.getQualisP(ano) + ";" + String.format("%.3f",veiculo.getImpacto()) + ";" + titulo + ";" + auxAutores;
     }
 }

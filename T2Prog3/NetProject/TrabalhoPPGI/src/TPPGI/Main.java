@@ -1,12 +1,15 @@
 package TPPGI;
-import TPPGI.ExcecoesPPGi.*;
+import TPPGI.ExceptionsPPGi.VeiculoIndefinidoException;
+import TPPGI.ExceptionsPPGi.QualisDesconhecidaException;
+import TPPGI.ExceptionsPPGi.DocenteIndefinidoException;
+import TPPGI.ExceptionsPPGi.CodigoRepetidoException;
+import TPPGI.ExceptionsPPGi.SiglaIndefinidaException;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author Gabriel Paschoal
+ * @author Hiuri Liberato
  */
 public class Main {
     public static void main(String[] args){
@@ -61,7 +64,7 @@ public class Main {
         }    
         
         try{
-        //Garantir que a os metodos ja tenham seus pre requisitos quando forem chamados
+        //Garantir que a os metodos ja tenham seus parametros inicializados quando forem chamados
             if(entradaCSV == true){
                 projeto.LeDocentes(docentes);
                 projeto.LeVeiculos(veiculos);
@@ -73,10 +76,11 @@ public class Main {
             if(serializa == true){
                 projeto.Serializadora();
             }if(desserializa == true){
-                //O passo abaixo ta muito errado pra um caralho, coisa de animal. Comente caso for tentar executar
+                //ler o arquivo serializado
                 projeto = projeto.Desserializadora("recredenciamento.dat");
             }
             projeto.OrdenaPublicacoes();
+            
             if(saidaCSV == true){
                 projeto.estatsiticaCSV();
                 projeto.ImprimePublicacoesCSV();

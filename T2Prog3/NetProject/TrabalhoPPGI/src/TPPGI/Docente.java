@@ -1,5 +1,5 @@
 package TPPGI;
-import TPPGI.ExcecoesPPGi.CodigoRepetidoException;
+import TPPGI.ExceptionsPPGi.CodigoRepetidoException;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -8,12 +8,13 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
+
 /** Classe que representa um Docente
  * @author Gabriel Paschoal
  * @author Hiuri Carriço Liberato
  */
 public class Docente implements Serializable, Comparable<Docente>{
-    //MUDAR CODIGO PARA INTEIRO
+   
     private Long codigo;
     private String nome;
     private Date nascimento;
@@ -42,10 +43,10 @@ public class Docente implements Serializable, Comparable<Docente>{
     public Long getCodigo() {return codigo;}
     
     /** Credita uma publicação a um docente
-     * @param p 
+     * @param publicacao
      */
-    public void AdicionaPublicacao(Publicacao p){
-        publicacoes.add(p);
+    public void AdicionaPublicacao(Publicacao publicacao){
+        publicacoes.add(publicacao);
     }
 
     public String getNome() {

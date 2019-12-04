@@ -6,10 +6,22 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**Classe dericada(filha) de Veículo, onde é feito uma pulicação
+ * 
+ * @Gabriel Paschoal
+ * @author Hiuri Liberato
+ */
 public class Periodico extends Veiculo{
     private String issn;
     private int volume;
     
+    /**Construtor de Periodico
+     * 
+     * @param sigla
+     * @param nome
+     * @param impacto
+     * @param issn 
+     */
     public Periodico(String sigla, String nome, double impacto, String issn){
         this.sigla = sigla;
         this.nome = nome;
