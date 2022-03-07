@@ -1,2 +1,2 @@
 # PPGI
-Trabalho para a disciplina Programação 3
+Trabalho Universitario sobre programação orientada a objetos
